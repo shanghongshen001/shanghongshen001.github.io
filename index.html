@@ -303,29 +303,17 @@
       
         
           
-            <p><img src="https://redis.io/images/redis-white.png" alt="image"></p>
-<h1 id="Redis"><a href="#Redis" class="headerlink" title="Redis"></a><a href="https://redis.io/" target="_blank" rel="noopener">Redis</a></h1><h1 id="c-redis客户端"><a href="#c-redis客户端" class="headerlink" title="c# redis客户端"></a>c# redis客户端</h1><p>既然redis是c/s架构，我们可以使用redis-cli客户端去连接服务端，那么我们也可以使用其他客户端区连接服务端。</p>
-<p>c#中比较知名的两个redis客户端库有：ServiceStack.Redis 和 StackExchange.Redis。遗憾的是ServiceStack.Redis在4.0后选择闭源商业化发展，离开了开源的怀抱。</p>
-<hr>
-<p><strong>目前C# 用得最多的应该是StackExchange.Redis</strong></p>
-<p>打开nuget 按照下载量排序，可以看到StackExchange.Redis 下载量雄踞第一</p>
-<p><img src="https://raw.githubusercontent.com/shanghongshen001/redisGetStarted/master/imgs/006aR3cagy1fh901trbcwj30p00f740v.jpg" alt="image"></p>
-<h1 id="使用StackExchange-Redis连接redis服务端"><a href="#使用StackExchange-Redis连接redis服务端" class="headerlink" title="使用StackExchange.Redis连接redis服务端"></a>使用StackExchange.Redis连接redis服务端</h1><p><a href="https://github.com/StackExchange/StackExchange.Redis/" target="_blank" rel="noopener">github地址</a></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">假设你已经安装好了redis 并且配置好了环境。</span><br><span class="line">如果你还没有安装redis请先安装redis。</span><br></pre></td></tr></table></figure>
-<h2 id="1-新建一个控制台应用"><a href="#1-新建一个控制台应用" class="headerlink" title="1.新建一个控制台应用"></a>1.新建一个控制台应用</h2><p><img src="https://raw.githubusercontent.com/shanghongshen001/redisGetStarted/master/imgs/006aR3cagy1fh906oza7tj311f0hhdh3.jpg" alt="image"></p>
-<h2 id="2-nuget安装StackExchange-Redis"><a href="#2-nuget安装StackExchange-Redis" class="headerlink" title="2.nuget安装StackExchange.Redis"></a>2.nuget安装StackExchange.Redis</h2><p><img src="https://raw.githubusercontent.com/shanghongshen001/redisGetStarted/master/imgs/006aR3cagy1fh907lzsxaj30p00f775s.jpg" alt="image"></p>
-<h2 id="基本使用"><a href="#基本使用" class="headerlink" title="基本使用"></a>基本使用</h2><h3 id="3-1获得一个ConnectionMultiplexer"><a href="#3-1获得一个ConnectionMultiplexer" class="headerlink" title="3.1获得一个ConnectionMultiplexer"></a>3.1获得一个ConnectionMultiplexer</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ConnectionMultiplexer redis = ConnectionMultiplexer.Connect(&quot;127.0.0.1:6379&quot;);</span><br></pre></td></tr></table></figure>
-<p><img src="https://raw.githubusercontent.com/shanghongshen001/redisGetStarted/master/imgs/006aR3cagy1fha4zqdu91j310t0g43zo.jpg" alt="image"></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">原文:</span><br><span class="line">Once you have a ConnectionMultiplexer, there are 3 main things you might want to do:</span><br><span class="line"></span><br><span class="line">access a redis database (note that in the case of a cluster, a single logical database may be spread over multiple nodes)</span><br><span class="line">make use of the pub/sub features of redis</span><br><span class="line">access an individual server for maintenance / monitoring purposes</span><br><span class="line"></span><br><span class="line">大概意思：</span><br><span class="line">如果你已经获得了一个ConnectionMultiplexer 对象，那么你接下来需要做这3件事情</span><br><span class="line"></span><br><span class="line">1 访问redis数据库</span><br><span class="line">2 使用redis 的  pub/sub（pubish-subscribe的缩写） 发布/订阅 功能</span><br><span class="line">3 访问单个服务器进行维护/监控</span><br></pre></td></tr></table></figure>
-<h3 id="3-1-访问单个redis数据库"><a href="#3-1-访问单个redis数据库" class="headerlink" title="3.1 访问单个redis数据库"></a>3.1 访问单个redis数据库</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">IDatabase db = redis.GetDatabase();</span><br></pre></td></tr></table></figure>
-<p><img src="https://raw.githubusercontent.com/shanghongshen001/redisGetStarted/master/imgs/006aR3cagy1fha6c1de6bj311y0kqmzp.jpg" alt="image"></p>
-<h3 id="3-2-string操作"><a href="#3-2-string操作" class="headerlink" title="3.2 string操作"></a>3.2 string操作</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">string value = &quot;abcdefg&quot;;</span><br><span class="line">db.StringSet(&quot;mykey&quot;, value);</span><br><span class="line">...</span><br><span class="line">string value = db.StringGet(&quot;mykey&quot;);</span><br><span class="line">Console.WriteLine(value); // writes: &quot;abcdefg&quot;</span><br></pre></td></tr></table></figure>
-<p><img src="https://raw.githubusercontent.com/shanghongshen001/redisGetStarted/master/imgs/006aR3cagy1fha6f0c9fjj311y0jj40j.jpg" alt="image"></p>
-<hr>
-<hr>
-<p><strong>Over</strong></p>
-
           
+Redisc# redis客户端既然redis是c/s架构，我们可以使用redis-cli客户端去连接服务端，那么我们也可以使用其他客户端区连接服务端。
+c#中比较知名的两个redis客户端库有：ServiceStack.Redis 和 StackExchange.Redis。遗憾的是Servic
+          ...
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2018/09/06/redis初探3/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
@@ -443,49 +431,19 @@
       
         
           
-            <p><img src="https://redis.io/images/redis-white.png" alt="image"></p>
-<h1 id="Redis"><a href="#Redis" class="headerlink" title="Redis"></a><a href="https://redis.io/" target="_blank" rel="noopener">Redis</a></h1><h1 id="Redis-目录"><a href="#Redis-目录" class="headerlink" title="Redis 目录"></a>Redis 目录</h1><h2 id="删除这些讨厌的东西"><a href="#删除这些讨厌的东西" class="headerlink" title="删除这些讨厌的东西"></a>删除这些讨厌的东西</h2><p>让我不解的是安装好的目录下面有很多的pdb文件，这些调试文件会很影响性能，我不知道开发团队为什么要把这些文件打包到安装包中去，作为一个强迫症患者，我建议删掉这些文件。删除的时候提示删不掉，请先停止redis服务。</p>
-<p><img src="https://raw.githubusercontent.com/shanghongshen001/redisGetStarted/master/imgs/006aR3cagy1fh8yeae02rj30nl0aqdh5.jpg" alt="image"></p>
-<h2 id="简单介绍目录"><a href="#简单介绍目录" class="headerlink" title="简单介绍目录"></a>简单介绍目录</h2><p><img src="https://raw.githubusercontent.com/shanghongshen001/redisGetStarted/master/imgs/006aR3cagy1fh8ysr6u70j30kt07rgmf.jpg" alt="image"></p>
-<p>按类型排个序可以看到 有用的就是</p>
-<ul>
-<li>2个conf配置文件</li>
-<li>4个exe</li>
-<li>1个dll</li>
-</ul>
-<h3 id="conf"><a href="#conf" class="headerlink" title="conf"></a>conf</h3><p>打开着两个conf可以看到熟悉的linux配置文件的写法。这两个配置文件的内容基本相差不大，根据名字猜测，第一个应该是默认的配置文件，文件里面有个</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"># Redis configuration file example</span><br></pre></td></tr></table></figure>
-<p>第二个我猜测应该是安装后的服务默认使用的配置文件。</p>
-<h3 id="4个exe"><a href="#4个exe" class="headerlink" title="4个exe"></a>4个exe</h3><ul>
-<li>redis-server.exe redis服务端</li>
-<li>redis-cli.exe redis客户端</li>
-<li>redis-check-aof.exe 应该是AOF工具 <a href="http://redisbook.readthedocs.io/en/latest/internal/aof.html" target="_blank" rel="noopener">AOF介绍</a></li>
-<li>redis-benchmark.exe 性能测试工具</li>
-</ul>
-<h3 id="1个dll"><a href="#1个dll" class="headerlink" title="1个dll"></a>1个dll</h3><p>这个dll根据命名猜测应该是日志相关的。</p>
-<h1 id="Redis服务"><a href="#Redis服务" class="headerlink" title="Redis服务"></a>Redis服务</h1><p>我下载的是MSI版本的安装包，在安装之前我猜想这种安装包可能或帮我配置好环境，安装后发现它还把Redis server 注册成了服务。</p>
-<p><img src="https://raw.githubusercontent.com/shanghongshen001/redisGetStarted/master/imgs/006aR3cagy1fh8yfe47mnj30qg01omxc.jpg" alt="image"></p>
-<h2 id="两种服务端启动方法"><a href="#两种服务端启动方法" class="headerlink" title="两种服务端启动方法"></a>两种服务端启动方法</h2><ul>
-<li>1直接启动服务</li>
-<li>2cd到redis安装目录  然后执行 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">redis-server.exe redis.windows.conf</span><br></pre></td></tr></table></figure>
-</li>
-</ul>
-<p>需要注意的是由于端口只能独占，如果以服务方式启动后，就不能已命令方式启动了。</p>
-<h1 id="Redis客户端"><a href="#Redis客户端" class="headerlink" title="Redis客户端"></a>Redis客户端</h1><p>以下两种方式启动</p>
-<ul>
-<li>cd到redis安装目录 输入 redis-cli </li>
-<li>双击redis-cli.exe</li>
-</ul>
-<p>由于双击启动的方式是自动连接到本机的redis默认端口，如果想连接别的redis服务器（外网或局域网其他电脑）， 显然只能使用命令的方式连接了<br>连接命令</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">默认：直接连接  </span><br><span class="line">远程连接：redis-cli -h 192.168.1.20 -p 6379</span><br></pre></td></tr></table></figure>
-<p>更多redis-cli <a href="http://www.cnblogs.com/silent2012/p/5368925.html" target="_blank" rel="noopener">请参考</a></p>
-<h1 id="简单测试"><a href="#简单测试" class="headerlink" title="简单测试"></a>简单测试</h1><p><strong>启动服务端</strong></p>
-<p><img src="https://raw.githubusercontent.com/shanghongshen001/redisGetStarted/master/imgs/006aR3cagy1fh8zkm93eyj30rl0efjs3.jpg" alt="image"></p>
-<p><img src="https://raw.githubusercontent.com/shanghongshen001/redisGetStarted/master/imgs/006aR3cagy1fh8zlgosdhj30rl0efq37.jpg" alt="image"></p>
-<hr>
-<p>初次体检redis 感觉redis的安装使用都较为简洁，命令简单易懂。</p>
-
           
+RedisRedis 目录删除这些讨厌的东西让我不解的是安装好的目录下面有很多的pdb文件，这些调试文件会很影响性能，我不知道开发团队为什么要把这些文件打包到安装包中去，作为一个强迫症患者，我建议删掉这些文件。删除的时候提示删不掉，请先停止redis服务。
+
+简单介绍目录
+按类型排个序可以看到 有
+          ...
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2018/09/06/redis初探2/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
@@ -603,73 +561,18 @@
       
         
           
-            <h1 id="基本用法"><a href="#基本用法" class="headerlink" title="﻿基本用法"></a>﻿基本用法</h1><ul>
-<li><p>StackExchange.Redis 的核心对象是 <code>ConnectionMultiplexer</code> ， 在 <code>StackExchange.Redis</code> 命名空间下面; 这个对象隐藏(封装)了多个服务器细节。</p>
-</li>
-<li><p>你不用每个操作都创建<code>ConnectionMultiplexer</code>,因为<code>ConnectionMultiplexer</code>被设计成可以在多个调用着之间共享和复用.</p>
-</li>
-<li><p><code>ConnectionMultiplexer</code>是线程安全的</p>
-</li>
-<li><p>使用 <code>ConnectionMultiplexer.Connect</code> or <code>ConnectionMultiplexer.ConnectAsync</code><br>传递配置字符串或<code>ConfigurationOptions</code>对象来创建ConnectionMultiplexer对象</p>
-</li>
-<li><p>配置字符串采用以逗号分隔</p>
-</li>
-</ul>
-<p>下面是创建一个<code>ConnectionMultiplexer</code>并连接到本地redis服务器默认端口(6379)的例子</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">using StackExchange.Redis;</span><br><span class="line">...</span><br><span class="line">ConnectionMultiplexer redis = ConnectionMultiplexer.Connect(&quot;localhost&quot;);</span><br><span class="line">// ^^^ store and re-use this!!!</span><br></pre></td></tr></table></figure>
-<p>注意<code>ConnectionMultiplexer</code>实现了<code>IDisposable</code>,会在你不再使用这个对象的时候自动销毁。这是故意设计不显示用<code>using</code>销毁,因为你可以很方便的使用并重用它。</p>
-<p>更复杂的情况可能涉及主/从设置; 对于此用法，只需指定组成该逻辑redis层的所有所需节点（它将自动标识主节点）：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ConnectionMultiplexer redis = ConnectionMultiplexer.Connect(&quot;server1:6379,server2:6379&quot;);</span><br></pre></td></tr></table></figure>
-<p>如果发现两个节点都是主节点，a tie-breaker key can optionally be specified that can be used to resolve the issue，但幸运的是这样的条件非常罕见。</p>
-<p>一旦你有一个ConnectionMultiplexer，你可能想要做的3件主要事情：</p>
-<ul>
-<li>使用 redis database（请注意，在群集的情况下，单个逻辑数据库可能会分布在多个节点上）</li>
-<li>使用redis 的put/sub功能</li>
-<li>访问单个服务器进行维护/监控</li>
-</ul>
-<h2 id="使用-redis-database"><a href="#使用-redis-database" class="headerlink" title="使用 redis database"></a>使用 redis database</h2><p>使用 redis database的一个简单例子:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">IDatabase db = redis.GetDatabase();</span><br></pre></td></tr></table></figure>
-<p>The object returned from <code>GetDatabase</code> is a cheap pass-thru object, and does not need to be stored. Note that redis supports multiple databases (although this is not supported on “cluster”); this can be optionally specified in the call to <code>GetDatabase</code>. Additionally, if you plan to make use of the asynchronous API and you require the <a href="http://msdn.microsoft.com/en-us/library/system.threading.tasks.task.asyncstate(v=vs.110).aspx" target="_blank" rel="noopener"><code>Task.AsyncState</code></a> to have a value, this can also be specified:</p>
-<p><code>GetDatabase</code>的返回对象是</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">int databaseNumber = ...</span><br><span class="line">object asyncState = ...</span><br><span class="line">IDatabase db = redis.GetDatabase(databaseNumber, asyncState);</span><br></pre></td></tr></table></figure>
-<p>Once you have the <code>IDatabase</code>, it is simply a case of using the <a href="http://redis.io/commands" target="_blank" rel="noopener">redis API</a>. Note that all methods have both synchronous and asynchronous implementations. In line with Microsoft’s naming guidance, the asynchronous methods all end <code>...Async(...)</code>, and are fully <code>await</code>-able etc.</p>
-<p>The simplest operation would be to store and retrieve a value:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">string value = &quot;abcdefg&quot;;</span><br><span class="line">db.StringSet(&quot;mykey&quot;, value);</span><br><span class="line">...</span><br><span class="line">string value = db.StringGet(&quot;mykey&quot;);</span><br><span class="line">Console.WriteLine(value); // writes: &quot;abcdefg&quot;</span><br></pre></td></tr></table></figure>
-<p>Note that the <code>String...</code> prefix here denotes the <a href="http://redis.io/topics/data-types" target="_blank" rel="noopener">String redis type</a>, and is largely separate to the <a href="http://msdn.microsoft.com/en-us/library/system.string(v=vs.110).aspx" target="_blank" rel="noopener">.NET String type</a>, although both can store text data. However, redis allows raw binary data for both keys and values - the usage is identical:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">byte[] key = ..., value = ...;</span><br><span class="line">db.StringSet(key, value);</span><br><span class="line">...</span><br><span class="line">byte[] value = db.StringGet(key);</span><br></pre></td></tr></table></figure>
-<p>The entire range of <a href="http://redis.io/commands" target="_blank" rel="noopener">redis database commands</a> covering all redis data types is available for use.</p>
-<h2 id="Using-redis-pub-sub"><a href="#Using-redis-pub-sub" class="headerlink" title="Using redis pub/sub"></a>Using redis pub/sub</h2><p>Another common use of redis is as a <a href="http://redis.io/topics/pubsub" target="_blank" rel="noopener">pub/sub message</a> distribution tool; this is also simple, and in the event of connection failure, the <code>ConnectionMultiplexer</code> will handle all the details of re-subscribing to the requested channels.</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ISubscriber sub = redis.GetSubscriber();</span><br></pre></td></tr></table></figure>
-<p>Again, the object returned from <code>GetSubscriber</code> is a cheap pass-thru object that does not need to be stored. The pub/sub API has no concept of databases, but as before we can optionally provide an async-state. Note that all subscriptions are global: they are not scoped to the lifetime of the <code>ISubscriber</code> instance. The pub/sub features in redis use named “channels”; channels do not need to be defined in advance on the server (an interesting use here is things like per-user notification channels, which is what drives parts of the realtime updates on <a href="http://stackoverflow.com" target="_blank" rel="noopener">Stack Overflow</a>). As is common in .NET, subscriptions take the form of callback delegates which accept the channel-name and the message:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">sub.Subscribe(&quot;messages&quot;, (channel, message) =&gt; &#123;</span><br><span class="line">    Console.WriteLine((string)message);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
-<p>Separately (and often in a separate process on a separate machine) you can publish to this channel:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sub.Publish(&quot;messages&quot;, &quot;hello&quot;);</span><br></pre></td></tr></table></figure>
-<p>This will (virtually instantaneously) write <code>&quot;hello&quot;</code> to the console of the subscribed process. As before, both channel-names and messages can be binary.</p>
-<p>Please also see <a href="PubSubOrder">Pub / Sub Message Order</a> for guidance on sequential versus concurrent message processing.</p>
-<h2 id="Accessing-individual-servers"><a href="#Accessing-individual-servers" class="headerlink" title="Accessing individual servers"></a>Accessing individual servers</h2><p>For maintenance purposes, it is sometimes necessary to issue server-specific commands:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">IServer server = redis.GetServer(&quot;localhost&quot;, 6379);</span><br></pre></td></tr></table></figure>
-<p>The <code>GetServer</code> method will accept an <a href="http://msdn.microsoft.com/en-us/library/system.net.endpoint(v=vs.110" target="_blank" rel="noopener"><code>EndPoint</code></a>.aspx) or the name/value pair that uniquely identify the server. As before, the object returned from <code>GetServer</code> is a cheap pass-thru object that does not need to be stored, and async-state can be optionally specified. Note that the set of available endpoints is also available:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">EndPoint[] endpoints = redis.GetEndPoints();</span><br></pre></td></tr></table></figure>
-<p>From the <code>IServer</code> instance, the <a href="http://redis.io/commands#server" target="_blank" rel="noopener">Server commands</a> are available; for example:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">DateTime lastSave = server.LastSave();</span><br><span class="line">ClientInfo[] clients = server.ClientList();</span><br></pre></td></tr></table></figure>
-<h2 id="Sync-vs-Async-vs-Fire-and-Forget"><a href="#Sync-vs-Async-vs-Fire-and-Forget" class="headerlink" title="Sync vs Async vs Fire-and-Forget"></a>Sync vs Async vs Fire-and-Forget</h2><p>There are 3 primary usage mechanisms with StackExchange.Redis:</p>
-<ul>
-<li>Synchronous - where the operation completes before the methods returns to the caller (note that while this may block the caller, it absolutely <strong>does not</strong> block other threads: the key idea in StackExchange.Redis is that it aggressively shares the connection between concurrent callers)</li>
-<li>Asynchronous - where the operation completes some time in the future, and a <code>Task</code> or <code>Task&lt;T&gt;</code> is returned immediately, which can later:<ul>
-<li>be <code>.Wait()</code>ed (blocking the current thread until the response is available)</li>
-<li>have a continuation callback added (<a href="http://msdn.microsoft.com/en-us/library/system.threading.tasks.task.continuewith(v=vs.110" target="_blank" rel="noopener"><code>ContinueWith</code></a>.aspx) in the TPL)</li>
-<li>be <em>awaited</em> (which is a language-level feature that simplifies the latter, while also continuing immediately if the reply is already known)</li>
-</ul>
-</li>
-<li>Fire-and-Forget - where you really aren’t interested in the reply, and are happy to continue irrespective of the response</li>
-</ul>
-<p>The synchronous usage is already shown in the examples above. This is the simplest usage, and does not involve the <a href="http://msdn.microsoft.com/en-us/library/dd460717%28v=vs.110%29.aspx" target="_blank" rel="noopener">TPL</a>.</p>
-<p>For asynchronous usage, the key difference is the <code>Async</code> suffix on methods, and (typically) the use of the <code>await</code> language feature. For example:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">string value = &quot;abcdefg&quot;;</span><br><span class="line">await db.StringSetAsync(&quot;mykey&quot;, value);</span><br><span class="line">...</span><br><span class="line">string value = await db.StringGetAsync(&quot;mykey&quot;);</span><br><span class="line">Console.WriteLine(value); // writes: &quot;abcdefg&quot;</span><br></pre></td></tr></table></figure>
-<p>The fire-and-forget usage is accessed by the optional <code>CommandFlags flags</code> parameter on all methods (defaults to none). In this usage, the method returns the default value immediately (so a method that normally returns a <code>String</code> will always return <code>null</code>, and a method that normally returns an <code>Int64</code> will always return <code>0</code>). The operation will continue in the background. A typical use-case of this might be to increment page-view counts:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">db.StringIncrement(pageKey, flags: CommandFlags.FireAndForget);</span><br></pre></td></tr></table></figure>
+          ﻿基本用法
+StackExchange.Redis 的核心对象是 ConnectionMultiplexer ， 在 StackExchange.Redis 命名空间下面; 这个对象隐藏(封装)了多个服务器细节。
 
-          
+你不用每个操作都创建ConnectionMultiplexer,因为Connecti
+          ...
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2018/09/06/redis初探4/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
@@ -787,90 +690,54 @@
       
         
           
-            <p><img src="https://redis.io/images/redis-white.png" alt="image"></p>
-<h1 id="Redis"><a href="#Redis" class="headerlink" title="Redis"></a><a href="https://redis.io/" target="_blank" rel="noopener">Redis</a></h1><table>
-<thead>
-<tr>
-<th>key</th>
-<th>value</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>github</td>
-<td><a href="https://github.com/MSOpenTech/redis" target="_blank" rel="noopener">redis</a></td>
-</tr>
-<tr>
-<td>开发者</td>
-<td>Salvatore Sanfilippo</td>
-</tr>
-<tr>
-<td>许可</td>
-<td>BSD</td>
-</tr>
-<tr>
-<td>存储位置</td>
-<td>内存</td>
-</tr>
-<tr>
-<td>可持久化</td>
-<td>可持久化到硬盘</td>
-</tr>
-<tr>
-<td>非关系型</td>
-<td>是</td>
-</tr>
-<tr>
-<td>存储类型</td>
-<td>字符串，列表，散列表，有序集合</td>
-</tr>
-<tr>
-<td>性能</td>
-<td>主从备份，可以从任意从服务器发起访问</td>
-</tr>
-</tbody>
-</table>
-<h2 id="优点"><a href="#优点" class="headerlink" title="优点"></a>优点</h2><ul>
-<li>读写性能优异</li>
-<li>支持数据持久化，支持AOF和RDB两种持久化方式</li>
-<li>支持主从复制，主机会自动将数据同步到从机，可以进行读写分离。(主服务器,主要负责写入数据,多台从服务器,负责数据的读取)</li>
-<li>数据结构丰富：除了支持string类型的value外还支持string、hash、set、sortedset、list等数据结构。</li>
-</ul>
-<h2 id="缺点"><a href="#缺点" class="headerlink" title="缺点"></a>缺点</h2><ul>
-<li>Redis不具备自动容错和恢复功能，主机从机的宕机都会导致前端部分读写请求失败，需要等待机器重启或者手动切换前端的IP才能恢复。</li>
-<li>主机宕机，宕机前有部分数据未能及时同步到从机，切换IP后还会引入数据不一致的问题，降低了系统的可用性。</li>
-<li>redis的主从复制采用全量复制，复制过程中主机会fork出一个子进程对内存做一份快照，并将子进程的内存快照保存为文件发送给从机，这一过程需要确保主机有足够多的空余内存。若快照文件较大，对集群的服务能力会产生较大的影响，而且复制过程是在从机新加入集群或者从机和主机网络断开重连时都会进行，也就是网络波动都会造成主机和从机间的一次全量的数据复制，这对实际的系统运营造成了不小的麻烦。</li>
-<li>Redis较难支持在线扩容，在集群容量达到上限时在线扩容会变得很复杂。为避免这一问题，运维人员在系统上线时必须确保有足够的空间，这对资源造成了很大的浪费。</li>
-</ul>
-<h2 id="Web中应用场景"><a href="#Web中应用场景" class="headerlink" title="Web中应用场景"></a>Web中应用场景</h2><h3 id="1．在主页中显示最新的项目列表。"><a href="#1．在主页中显示最新的项目列表。" class="headerlink" title="1．在主页中显示最新的项目列表。"></a>1．在主页中显示最新的项目列表。</h3><p>Redis使用的是常驻内存的缓存，速度非常快。LPUSH用来插入一个内容ID，作为关键字存储在列表头部。LTRIM用来限制列表中的项目数最多为5000。如果用户需要的检索的数据量超越这个缓存容量，这时才需要把请求发送到数据库。</p>
-<h3 id="2．删除和过滤。"><a href="#2．删除和过滤。" class="headerlink" title="2．删除和过滤。"></a>2．删除和过滤。</h3><p>如果一篇文章被删除，可以使用LREM从缓存中彻底清除掉。 </p>
-<h3 id="3．排行榜及相关问题。"><a href="#3．排行榜及相关问题。" class="headerlink" title="3．排行榜及相关问题。"></a>3．排行榜及相关问题。</h3><p>排行榜（leader board）按照得分进行排序。ZADD命令可以直接实现这个功能，而ZREVRANGE命令可以用来按照得分来获取前100名的用户，ZRANK可以用来获取用户排名，非常直接而且操作容易。</p>
-<h3 id="4．按照用户投票和时间排序。"><a href="#4．按照用户投票和时间排序。" class="headerlink" title="4．按照用户投票和时间排序。"></a>4．按照用户投票和时间排序。</h3><p>这就像Reddit的排行榜，得分会随着时间变化。LPUSH和LTRIM命令结合运用，把文章添加到一个列表中。一项后台任务用来获取列表，并重新计算列表的排序，ZADD命令用来按照新的顺序填充生成列表。列表可以实现非常快速的检索，即使是负载很重的站点。</p>
-<h3 id="5．过期项目处理。"><a href="#5．过期项目处理。" class="headerlink" title="5．过期项目处理。"></a>5．过期项目处理。</h3><p>使用unix时间作为关键字，用来保持列表能够按时间排序。对current_time和time_to_live进行检索，完成查找过期项目的艰巨任务。另一项后台任务使用ZRANGE…WITHSCORES进行查询，删除过期的条目。</p>
-<h3 id="6．计数。"><a href="#6．计数。" class="headerlink" title="6．计数。"></a>6．计数。</h3><p>进行各种数据统计的用途是非常广泛的，比如想知道什么时候封锁一个IP地址。INCRBY命令让这些变得很容易，通过原子递增保持计数；GETSET用来重置计数器；过期属性用来确认一个关键字什么时候应该删除。</p>
-<h3 id="7．特定时间内的特定项目。"><a href="#7．特定时间内的特定项目。" class="headerlink" title="7．特定时间内的特定项目。"></a>7．特定时间内的特定项目。</h3><p>这是特定访问者的问题，可以通过给每次页面浏览使用SADD命令来解决。SADD不会将已经存在的成员添加到一个集合。</p>
-<h3 id="8．实时分析正在发生的情况，用于数据统计与防止垃圾邮件等。"><a href="#8．实时分析正在发生的情况，用于数据统计与防止垃圾邮件等。" class="headerlink" title="8．实时分析正在发生的情况，用于数据统计与防止垃圾邮件等。"></a>8．实时分析正在发生的情况，用于数据统计与防止垃圾邮件等。</h3><p>使用Redis原语命令，更容易实施垃圾邮件过滤系统或其他实时跟踪系统。</p>
-<h3 id="9．Pub-Sub。"><a href="#9．Pub-Sub。" class="headerlink" title="9．Pub/Sub。"></a>9．Pub/Sub。</h3><p>在更新中保持用户对数据的映射是系统中的一个普遍任务。Redis的pub/sub功能使用了SUBSCRIBE、UNSUBSCRIBE和PUBLISH命令，让这个变得更加容易。 </p>
-<h3 id="10．队列。"><a href="#10．队列。" class="headerlink" title="10．队列。"></a>10．队列。</h3><p>在当前的编程中队列随处可见。除了push和pop类型的命令之外，Redis还有阻塞队列的命令，能够让一个程序在执行时被另一个程序添加到队列。你也可以做些更有趣的事情，比如一个旋转更新的RSS feed队列。</p>
-<h3 id="11．缓存。"><a href="#11．缓存。" class="headerlink" title="11．缓存。"></a>11．缓存。</h3><p>Redis缓存使用的方式与memcache相同。</p>
-<p>网络应用不能无休止地进行模型的战争，看看这些Redis的原语命令，尽管简单但功能强大，把它们加以组合，所能完成的就更无法想象。当然，你可以专门编写代码来完成所有这些操作，但Redis实现起来显然更为轻松。</p>
-<h1 id="MSOpenTech"><a href="#MSOpenTech" class="headerlink" title="MSOpenTech"></a><a href="https://github.com/MSOpenTech/redis" target="_blank" rel="noopener">MSOpenTech</a></h1><hr>
-<p>Redis 官方没有提供windows下面安装的方法,windows下的Redis是微软官方的MSOpenTech团队fork官方的版本。<br>然后做了一些特殊的更改</p>
-<p><strong>更改内容</strong><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">## Windows-specific changes</span><br><span class="line">- There is a replacement for the UNIX fork() API that simulates the copy-on-write behavior using a memory mapped file on 2.8. Version 3.0 is using a similar behavior but dropped the memory mapped file in favor of the system paging file.</span><br><span class="line">- In 3.0 we switch the default memory allocator from dlmalloc to jemalloc that is supposed to do a better job at managing the heap fragmentation.</span><br><span class="line">- Because Redis makes some assumptions about the values of file descriptors, we have built a virtual file descriptor mapping layer.</span><br></pre></td></tr></table></figure></p>
-<hr>
-<p><img src="https://raw.githubusercontent.com/shanghongshen001/redisGetStarted/master/imgs/006aR3cagy1fh8umb8xmmj30rx0fs76o.jpg" alt="image"></p>
-<p>更多资料请参考<a href="https://github.com/MSOpenTech/redis/wiki/Memory-Configuration" target="_blank" rel="noopener">WIKI</a></p>
-<h1 id="windows下安装"><a href="#windows下安装" class="headerlink" title="windows下安装"></a>windows下安装</h1><h2 id="1-下载"><a href="#1-下载" class="headerlink" title="1.下载"></a>1.下载</h2><p><img src="https://raw.githubusercontent.com/shanghongshen001/redisGetStarted/master/imgs/006aR3cagy1fh8vcm7bcqj30vb0futb6.jpg" alt="image"></p>
-<p><strong>我下载的msi安装版</strong></p>
-<p><img src="https://raw.githubusercontent.com/shanghongshen001/redisGetStarted/master/imgs/006aR3cagy1fh8vfftedtj30sa0hjjt6.jpg" alt="image"></p>
-<h2 id="2-安装"><a href="#2-安装" class="headerlink" title="2.安装"></a>2.安装</h2><p><strong>安装中需要注意的就是勾选把安装目录加入环境变量</strong></p>
-<p>参考:</p>
-<hr>
-<p><a href="http://www.cnblogs.com/jing99/p/6112055.html" target="_blank" rel="noopener">redis对比其余数据库</a></p>
-<hr>
-<p><a href="http://blog.csdn.net/oanqoanq/article/details/51281548" target="_blank" rel="noopener">redis优缺点总结</a></p>
-
           
+Redis
+
+
+key
+value
+
+
+
+
+github
+redis
+
+
+开发者
+Salvatore Sanfilippo
+
+
+许可
+BSD
+
+
+存储位置
+内存
+
+
+可持久化
+可持久化到硬盘
+
+
+非关系型
+是
+
+
+存储类型
+字符串，列表，散列表，有序集合
+
+
+性能
+主从备份，可以从任意从服务器发起
+          ...
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2018/09/06/redis初探1/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
@@ -988,122 +855,18 @@
       
         
           
-            <h1 id="规则引擎是什么"><a href="#规则引擎是什么" class="headerlink" title="规则引擎是什么"></a>规则引擎是什么</h1><ul>
-<li>起源于专家系统， 人工智能领域的商业应用方向 基于产生式规则的推理系统，将领域知识和业务规则集合作为知识库进行存储和管理；</li>
-<li>规则引擎根据给定数据及知识库进行推理，执行相应规则，从而作出决策；</li>
-<li>使用预定义的规则语言编写业务规则，将业务逻辑从应用程序中分离，业务规则更加可读、可编辑、动态可配置， 从而应对复杂多变的商业规则；</li>
-<li>嵌入到应用程序中的可复用计算组件。</li>
-<li><p>适用场景：</p>
-<ol>
-<li>替换复杂嵌套难以维护的条件、分支语句；</li>
-<li>业务规则变化迅速， 且不能经常重新编译和部署应用； </li>
-<li>必须由业务专家动态地维护和管理可变的业务规则和商业机密；</li>
-<li>计费系统、积分系统、知识推理系统等；</li>
-</ol>
-</li>
-<li><p>规则作为一种知识，其典型运用就是通过实际情况，根据给定的一组规则，得出结论。这个结论可能是某种静态的结果，也可能是需要进行的一组操作。这种 规则的运用过程叫做推理。如果由程序来处理推理过程，那么这个程序就叫做推理机/推理引擎。推理引擎根据知识表示的不同采取的控制策略也是不同的，常见的 类型包括基于神经网络、基于案例和基于规则的推理机。其中，基于规则的推理机易于理解、易于获取、易于管理，被广泛采用。这种<strong>推理引擎</strong>被称为“规则引擎”。</p>
-</li>
-<li>好的规则引擎一般自带BRMS（Business Rule Management System 业务规则管理系统)例如：Drools的Guvnor，Guvnor提供了规则管理的知识库，通过它可以实现规则的版本控制，及规则的在线修改与编译，使得开发人员和系统管理人员可以在线管理业务规则。</li>
-</ul>
-<h1 id="规则引擎的组成"><a href="#规则引擎的组成" class="headerlink" title="规则引擎的组成"></a>规则引擎的组成</h1><p><img src="https://ws1.sinaimg.cn/large/006UrJumgy1fte18cu9vij30f008d0v8.jpg" alt="此处输入图片的描述"></p>
-<ul>
-<li>产生式规则库 (Production Memory)：  存放企业规则的可编译形式；</li>
-<li>工作内存区（Working Memory）：存放事实，对应于企业应用系统中的数据对象；</li>
-<li>推理引擎（Inference Engine）：决定哪些规则满足事实，并授予规则执行优先级，满足要求的待执行规则被加入议程。推理引擎由模式匹配器、议程和执行引擎组成。</li>
-</ul>
-<ol>
-<li>模式匹配器决定哪些规则满足事实，并授予规则执行优先级，满足要求的待执行规则被加入议程；<strong>模式匹配器（Pattern Matcher）是规则引擎的核心，决定着规则引擎实现的效率。一个经典而高效的算法是 ReteOO 算法。</strong></li>
-<li>议程(Agenda)使用指定的冲突消解策略，来决定已匹配的规则集的执行次序；</li>
-<li>执行引擎负责执行规则，输出结果。</li>
-</ol>
-<h1 id="规则引擎结构和执行顺序"><a href="#规则引擎结构和执行顺序" class="headerlink" title="规则引擎结构和执行顺序"></a>规则引擎结构和执行顺序</h1><p><img src="https://ws1.sinaimg.cn/large/006UrJumgy1fte1fl0vjmj30d50cbq4s.jpg" alt="此处输入图片的描述"></p>
-<p><img src="https://ws1.sinaimg.cn/large/006UrJumgy1fte1fw3e2qj30bz0dxdjd.jpg" alt="此处输入图片的描述"></p>
-<ul>
-<li>[步骤一]： 应用程序启动规则引擎，激活指定的规则/断言集区。激活的规则/断言集被加载入内存，并通过规则/断言编译器，最终构建出规则匹配网络；</li>
-<li>[步骤二]： 工作内存区从应用程序接收输入数据或对象，将其插入规则匹配网络，经过数据-规则匹配过程，产生完全匹配的<rule, data="">集合；</rule,></li>
-<li>[步骤三]：选择器根据元规则集合提供的优先级描述从<rule,data>集合中选择出<rule,data>集合并包装成<strong>Activation实例集</strong>作为<strong>候选执行单位</strong>；</rule,data></rule,data></li>
-<li>[步骤四]：议程用来管理Activation实例集合的活动，支持添加、删除和更新等操作。它将优先执行的Activation实例集合交给调度器；</li>
-<li>[步骤五]：调度器会预先从外部获取控制过程子例程集合。当接收到由议程传来的Activation实例集合时，通过一定的调度算法调度一个过程，并根据过程控制程序来选出将要执行的规则动作，交给解释器执行。此外，调度器还负责未能完成的Activation实例执行过程的调度处理。</li>
-<li>[步骤六]：解释器拥有一个执行栈，用于存放要执行的动作。当解释器执行完一个Activation时，就会从议程中删除已执行的Activation；如果有必要，会产生两种可能的附加结果和操作：<ol>
-<li>或者更新工作内存区，并触发新的数据到规则匹配网络中进行匹配；</li>
-<li>或者激活新的规则/断言集合，放入规则/断言编译器，更新规则匹配网络；</li>
-</ol>
-</li>
-<li>[步骤七]：解释器依次执行完所有的Activation实例集合并输出结果，或者根据用户指定的执行策略执行Activation实例集合，并在指定时刻输出结果；</li>
-<li>[步骤八]：用户通过规则引擎提供的API接口取出结果，进一步由应用程序处理。</li>
-</ul>
-<h2 id="一般应用调用方式"><a href="#一般应用调用方式" class="headerlink" title="一般应用调用方式"></a>一般应用调用方式</h2><ol>
-<li>ruleEngine.put(传入对象);</li>
-<li>ruleEngine.excute(“规则包调用名”);</li>
-<li>传出对象 = ruleEngine.get(“传出对象名”);</li>
-</ol>
-<h1 id="RETE-算法"><a href="#RETE-算法" class="headerlink" title="RETE 算法"></a>RETE 算法</h1><h2 id="基本概念"><a href="#基本概念" class="headerlink" title="基本概念"></a>基本概念</h2><p>Rete 在拉丁语中是 “net” ，有网络的意思。 RETE 算法可以分为两部分：规则编译（ rule compilation ）和运行时执行（ runtime execution ）。</p>
-<ul>
-<li>用一个非技术性的词来说，一个辨别网络就是用来过滤数据</li>
-<li>方法是通过数据在网络中的传播来过滤数据。在顶端节点将会有很多匹配的数据。当我们顺着网络向下走，匹配的数据将会越来越少。</li>
-</ul>
-<h2 id="基本构件"><a href="#基本构件" class="headerlink" title="基本构件"></a>基本构件</h2><ul>
-<li>规则：亦称<a href="https://baike.baidu.com/item/%E4%BA%A7%E7%94%9F%E5%BC%8F" target="_blank" rel="external"> [产生式]</a>，指一条由IF-THEN表述的语句，<strong>包括规则条件和规则动作</strong>；（产生式是由条件和动作组成的指令，即所谓的条件—活动规则，（condition—action 简称C-A规则）—— 百度百科）</li>
-<li>[规则条件]：通常称为LHS，是规则的IF部分的表达，其中含有待匹配的<strong>“模式”元素</strong>；</li>
-<li>[规则动作]：通常称为RHS，是规则的THEN部分的表达，含有当规则被激活和调度时要执行的操作；</li>
-<li>[对象（fact事实）]： 用来匹配规则的事实或数据，在面向对象的语境中统称对象；</li>
-<li>[工作内存]：全局数据区，包含运行时将会插入、删除或更新的对象；当工作内存区插入、删除或更新对象时，都将引发事实在规则集合中的匹配过程。</li>
-<li>[冲突集]：冲突集是一个集合，其中的每一个元素都是一条规则及与之完全匹配的对象集合。</li>
-</ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">when    //LHS</div><div class="line">    emp: Employ(awardPunish==&quot;award&quot;)</div><div class="line">then    //RHS</div><div class="line">  System.out.println(&quot;exec rule Award ... &quot;); </div><div class="line">  emp.setPercent(1.10);</div><div class="line">end</div></pre></td></tr></table></figure>
-<h2 id="七种基本节点"><a href="#七种基本节点" class="headerlink" title="七种基本节点"></a>七种基本节点</h2><ul>
-<li>【RETE Node】  RETE网络的根节点， 默认入口点，任何插入的token都要经过此节点进入RETE匹配网络</li>
-<li>【EntryPointNode 】 RETE根节点的后继节点，它将进入的token创建多个副本并分发到其所有的后继节点</li>
-<li>【ObjectTypeNode】  对象类型检测节点，即判断分发的事实副本是否属于某个类的对象，不满足的直接被丢弃</li>
-<li>【AlphaNode 】第一级匹配节点，用于匹配单个对象的单个属性</li>
-<li>【LeftInputAdapterNode 】适配器节点，用于为匹配AlphaNode类型的对象创建元组并将其加入BetaNode节点的左工作区，是通向BetaNode类型的入口点。</li>
-<li>【BetaNode】第二级匹配节点，用于匹配多个对象之间的属性约束联系， BetaNode通常有两个工作区，分别称为左工作区和右工作区。左工作区用于存放匹配前驱AlphaNode类型或BetaNode类型的元组，右工作区用于存放匹配AlphaNode类型的对象。</li>
-<li>【TerminalNode】叶节点类型。当元组和对象集合完全匹配某个规则中的模式时，就会到达该节点，并创建包含该规则及匹配对象集的元组。这些元组将在适当的时候加入到议程中获得调度和执行。</li>
-</ul>
-<h2 id="三种匹配网络"><a href="#三种匹配网络" class="headerlink" title="三种匹配网络"></a>三种匹配网络</h2><p><img src="https://ws1.sinaimg.cn/large/006UrJumgy1fte40ing68j308y05cjrw.jpg" alt="此处输入图片的描述"></p>
-<p><img src="https://ws1.sinaimg.cn/large/006UrJumgy1fte40ptn6sj309706ywfh.jpg" alt="此处输入图片的描述"></p>
-<p><img src="https://ws1.sinaimg.cn/large/006UrJumgy1ftg5cgtfehj30g50cqn0a.jpg" alt="此处输入图片的描述"></p>
-<h2 id="匹配例子"><a href="#匹配例子" class="headerlink" title="匹配例子"></a>匹配例子</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line">（1）规则内容</div><div class="line"></div><div class="line">    IF：</div><div class="line">    </div><div class="line">        年级是三年级以上，</div><div class="line">        </div><div class="line">        性别是男的，</div><div class="line">        </div><div class="line">        年龄小于10岁，</div><div class="line">        </div><div class="line">        身体健壮，</div><div class="line">        </div><div class="line">        身高170cm以上，</div><div class="line"></div><div class="line"> </div><div class="line">    THEN：</div><div class="line">    </div><div class="line">        这个男孩是一个篮球苗子，需要培养</div></pre></td></tr></table></figure>
-<p><img src="https://ws1.sinaimg.cn/large/006UrJumgy1ftg6hmnaf4j30u20puwha.jpg" alt="image"></p>
-<h2 id="四种匹配子例程-四种结构"><a href="#四种匹配子例程-四种结构" class="headerlink" title="四种匹配子例程/四种结构"></a>四种匹配子例程/四种结构</h2><ul>
-<li>【Alpha匹配网络】 负责单对象单属性的模式元素匹配，由大量AlphaNode类型的节点集合组成；</li>
-<li>【Alpha内存区】  负责存储Alpha匹配网络中匹配AlphaNode模式元素的对象集合；</li>
-<li>【Beta匹配网络】 负责多对象多属性的模式元素组合匹配，由大量BetaNode类型的节点集合组成；</li>
-<li>【 Beta内存区】负责存储从Alpha内存区或Beta内存区中进入的仅匹配BetaNode模式类型中的部分模式元素的对象集合</li>
-</ul>
-<p><strong>RETE网络的匹配过程由一个总控制程序进行调度，当对象token副本到达Alpha匹配网络，或者Alpha内存区或者Beta匹配网络，或Beta内存区，均会激发相应的子例程，从而实现对象在RETE网络中的匹配过程。可以采用观察者模式实现。</strong></p>
-<hr>
-<h3 id="Alpha-匹配网络子例程"><a href="#Alpha-匹配网络子例程" class="headerlink" title="Alpha 匹配网络子例程"></a>Alpha 匹配网络子例程</h3><p>对进入的对象进行类型测试和单属性测试，并将匹配的对象传入对应的Alpha内存区，接着，调用相应的Alpha内存子例程。</p>
-<h3 id="Alpha-内存区子例程"><a href="#Alpha-内存区子例程" class="headerlink" title="Alpha 内存区子例程"></a>Alpha 内存区子例程</h3><p>当有满足单对象单属性的对象进入Alpha内存区时，首先将其加入到所匹配模式元素的对象集合中，然后调用与之相连的每一个BetaNode的右激发子例程。Alpha内存区可以通过对所有的类型检测模式、单属性模式建立全局索引表，从而提高匹配效率，通常可以达到O(1)的效率。因此，规则引擎的匹配效率主要取决于Beta网络的匹配效率。</p>
-<h3 id="BetaNode-子例程"><a href="#BetaNode-子例程" class="headerlink" title="BetaNode 子例程"></a>BetaNode 子例程</h3><p>BetaNode 具有两个子例程：左激发子例程和右激发子例程。<br>当匹配BetaNode部分模式元素的元组进入与之相连的父Beta内存区时，就会调用左激发子例程，查找是否有对象满足给定模式；<br>当匹配BetaNode部分模式元素的对象进入与之相连的Alpha内存区时，就会调用其右激发子例程，查找是否有元组满足给定模式。<br>若找到，则将相应的元组和对象包装成更大的元组，传入与之相连的子Beta内存区，并激发相应的Beta内存区子例程。</p>
-<h3 id="Beta-内存子例程"><a href="#Beta-内存子例程" class="headerlink" title="Beta 内存子例程"></a>Beta 内存子例程</h3><p>当有元组进入Beta内存区时，就会激发Beta内存子例程。<br>Beta内存区首先将元组加入到所匹配模式元素的对象集合中，然后将其传入与之相连的每一个BetaNode，调用其左激发子例程。Beta内存区同样可建立一个全局索引表来提高匹配效率。</p>
-<h1 id="规则引擎的优势"><a href="#规则引擎的优势" class="headerlink" title="规则引擎的优势"></a>规则引擎的优势</h1><ul>
-<li><p>逻辑表达与执行的分离。业务逻辑的实现可以细分为业务逻辑的表达和执行。 在传统代码中，表达与执行是混在一起的，均是由代码来表达和执行；而在基于规则和规则引擎的系统中，规则用于逻辑表达，引擎进行执行。逻辑表达与执行分离了；</p>
-</li>
-<li><p>基于规则的系统中， 系统的正确性取决于规则的正确性。规则就像一系列表达“KNOW-HOW”的小片， 通过将规则片合理的组合起来（规则流的作用），从而表达完整的计算逻辑。规则、规则流和规则引擎是核心概念；</p>
-</li>
-<li><p>动态可配置的计算逻辑，具备固有的可扩展性。由于计算逻辑通过规则来表达和实现，而规则是动态可配置的，这就使得计算逻辑是动态可配置的。  这对于复杂多变、要求快速部署的现代商业应用是非常具有潜力和优势的；</p>
-</li>
-<li><p>规则比代码更具可读性。如果将规则生成和管理系统做到更人性化，就可以让用户（通常是业务人员和业务专家）通过编写规则和规则流来创建应用逻辑了。</p>
-</li>
-<li><p>规则具备自解释性。可以跟踪规则的执行， 清晰地看到最终计算结果的产生过程。而在传统代码中，虽然能够打印出一些语句，但是受程序结构限制， 通常仅限于程序员来调试。</p>
-</li>
-<li><p>计算组件的复用性。 规则用于表达， 引擎用于执行。 业务逻辑的多变性通常体现在表达上，而不是执行上。 因此， 表达部分是多变的，而执行部分是相对稳定的。规则引擎是计算组件中的可复用部分。</p>
-</li>
-<li><p>策略与机制的分离。在软件设计的角度来说，这也体现了策略与机制的分离。 规则表达是策略， 引擎是机制。 策略可变，机制稳定。</p>
-</li>
-</ul>
-<h1 id="人类专家（业务专家）、基于规则引擎的解决方案和传统计算方案（硬编码写死规则）的对比"><a href="#人类专家（业务专家）、基于规则引擎的解决方案和传统计算方案（硬编码写死规则）的对比" class="headerlink" title="人类专家（业务专家）、基于规则引擎的解决方案和传统计算方案（硬编码写死规则）的对比"></a>人类专家（业务专家）、基于规则引擎的解决方案和传统计算方案（硬编码写死规则）的对比</h1><p><img src="https://ws1.sinaimg.cn/large/006UrJumgy1fte4a0s540j30ho0a6whu.jpg" alt="此处输入图片的描述"></p>
-<ul>
-<li><p>人类专家在计算智能和自适应性上具有很大的优势，其不足之处在于计算效率慢，难以胜任大量的计算工作；</p>
-</li>
-<li><p>基于规则引擎的计算方案汲取了人类专家的“经验和智慧”，具备一定的智能性，同时计算效率要远高于人类专家；</p>
-</li>
-<li><p>传统方案: 仅在计算效率方面略高于前者，而在其它方面都有难以比拟的劣势。</p>
-</li>
-</ul>
-
-          
+          规则引擎是什么
+起源于专家系统， 人工智能领域的商业应用方向 基于产生式规则的推理系统，将领域知识和业务规则集合作为知识库进行存储和管理；
+规则引擎根据给定数据及知识库进行推理，执行相应规则，从而作出决策；
+使用预定义的规则语言编写业务规则，将业务逻辑从应用程序中分离，业务规则更加可读、可编辑、动态
+          ...
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2018/09/06/规则引擎总结/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
