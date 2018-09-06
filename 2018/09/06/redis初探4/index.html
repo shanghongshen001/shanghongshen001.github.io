@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="规则引擎," />
+  <meta name="keywords" content="Redis," />
 
 
 
@@ -80,14 +80,14 @@
 
 
 <meta name="description" content="基本用法 StackExchange.Redis 的核心对象是 ConnectionMultiplexer ， 在 StackExchange.Redis 命名空间下面; 这个对象隐藏(封装)了多个服务器细节。  你不用每个操作都创建ConnectionMultiplexer,因为ConnectionMultiplexer被设计成可以在多个调用着之间共享和复用.  ConnectionMulti">
-<meta name="keywords" content="规则引擎">
+<meta name="keywords" content="Redis">
 <meta property="og:type" content="article">
 <meta property="og:title" content="windows下Redis初探4">
 <meta property="og:url" content="http://yoursite.com/2018/09/06/redis初探4/index.html">
 <meta property="og:site_name" content="李浩的技术博客">
 <meta property="og:description" content="基本用法 StackExchange.Redis 的核心对象是 ConnectionMultiplexer ， 在 StackExchange.Redis 命名空间下面; 这个对象隐藏(封装)了多个服务器细节。  你不用每个操作都创建ConnectionMultiplexer,因为ConnectionMultiplexer被设计成可以在多个调用着之间共享和复用.  ConnectionMulti">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-09-06T09:15:41.627Z">
+<meta property="og:updated_time" content="2018-09-06T09:51:06.094Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="windows下Redis初探4">
 <meta name="twitter:description" content="基本用法 StackExchange.Redis 的核心对象是 ConnectionMultiplexer ， 在 StackExchange.Redis 命名空间下面; 这个对象隐藏(封装)了多个服务器细节。  你不用每个操作都创建ConnectionMultiplexer,因为ConnectionMultiplexer被设计成可以在多个调用着之间共享和复用.  ConnectionMulti">
@@ -313,10 +313,10 @@
 </li>
 </ul>
 <p>下面是创建一个<code>ConnectionMultiplexer</code>并连接到本地redis服务器默认端口(6379)的例子</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">using StackExchange.Redis;</div><div class="line">...</div><div class="line">ConnectionMultiplexer redis = ConnectionMultiplexer.Connect(&quot;localhost&quot;);</div><div class="line">// ^^^ store and re-use this!!!</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">using StackExchange.Redis;</span><br><span class="line">...</span><br><span class="line">ConnectionMultiplexer redis = ConnectionMultiplexer.Connect(&quot;localhost&quot;);</span><br><span class="line">// ^^^ store and re-use this!!!</span><br></pre></td></tr></table></figure>
 <p>注意<code>ConnectionMultiplexer</code>实现了<code>IDisposable</code>,会在你不再使用这个对象的时候自动销毁。这是故意设计不显示用<code>using</code>销毁,因为你可以很方便的使用并重用它。</p>
 <p>更复杂的情况可能涉及主/从设置; 对于此用法，只需指定组成该逻辑redis层的所有所需节点（它将自动标识主节点）：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">ConnectionMultiplexer redis = ConnectionMultiplexer.Connect(&quot;server1:6379,server2:6379&quot;);</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ConnectionMultiplexer redis = ConnectionMultiplexer.Connect(&quot;server1:6379,server2:6379&quot;);</span><br></pre></td></tr></table></figure>
 <p>如果发现两个节点都是主节点，a tie-breaker key can optionally be specified that can be used to resolve the issue，但幸运的是这样的条件非常罕见。</p>
 <p>一旦你有一个ConnectionMultiplexer，你可能想要做的3件主要事情：</p>
 <ul>
@@ -325,46 +325,46 @@
 <li>访问单个服务器进行维护/监控</li>
 </ul>
 <h2 id="使用-redis-database"><a href="#使用-redis-database" class="headerlink" title="使用 redis database"></a>使用 redis database</h2><p>使用 redis database的一个简单例子:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">IDatabase db = redis.GetDatabase();</div></pre></td></tr></table></figure>
-<p>The object returned from <code>GetDatabase</code> is a cheap pass-thru object, and does not need to be stored. Note that redis supports multiple databases (although this is not supported on “cluster”); this can be optionally specified in the call to <code>GetDatabase</code>. Additionally, if you plan to make use of the asynchronous API and you require the <a href="http://msdn.microsoft.com/en-us/library/system.threading.tasks.task.asyncstate(v=vs.110).aspx" target="_blank" rel="external"><code>Task.AsyncState</code></a> to have a value, this can also be specified:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">IDatabase db = redis.GetDatabase();</span><br></pre></td></tr></table></figure>
+<p>The object returned from <code>GetDatabase</code> is a cheap pass-thru object, and does not need to be stored. Note that redis supports multiple databases (although this is not supported on “cluster”); this can be optionally specified in the call to <code>GetDatabase</code>. Additionally, if you plan to make use of the asynchronous API and you require the <a href="http://msdn.microsoft.com/en-us/library/system.threading.tasks.task.asyncstate(v=vs.110).aspx" target="_blank" rel="noopener"><code>Task.AsyncState</code></a> to have a value, this can also be specified:</p>
 <p><code>GetDatabase</code>的返回对象是</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">int databaseNumber = ...</div><div class="line">object asyncState = ...</div><div class="line">IDatabase db = redis.GetDatabase(databaseNumber, asyncState);</div></pre></td></tr></table></figure>
-<p>Once you have the <code>IDatabase</code>, it is simply a case of using the <a href="http://redis.io/commands" target="_blank" rel="external">redis API</a>. Note that all methods have both synchronous and asynchronous implementations. In line with Microsoft’s naming guidance, the asynchronous methods all end <code>...Async(...)</code>, and are fully <code>await</code>-able etc.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">int databaseNumber = ...</span><br><span class="line">object asyncState = ...</span><br><span class="line">IDatabase db = redis.GetDatabase(databaseNumber, asyncState);</span><br></pre></td></tr></table></figure>
+<p>Once you have the <code>IDatabase</code>, it is simply a case of using the <a href="http://redis.io/commands" target="_blank" rel="noopener">redis API</a>. Note that all methods have both synchronous and asynchronous implementations. In line with Microsoft’s naming guidance, the asynchronous methods all end <code>...Async(...)</code>, and are fully <code>await</code>-able etc.</p>
 <p>The simplest operation would be to store and retrieve a value:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">string value = &quot;abcdefg&quot;;</div><div class="line">db.StringSet(&quot;mykey&quot;, value);</div><div class="line">...</div><div class="line">string value = db.StringGet(&quot;mykey&quot;);</div><div class="line">Console.WriteLine(value); // writes: &quot;abcdefg&quot;</div></pre></td></tr></table></figure>
-<p>Note that the <code>String...</code> prefix here denotes the <a href="http://redis.io/topics/data-types" target="_blank" rel="external">String redis type</a>, and is largely separate to the <a href="http://msdn.microsoft.com/en-us/library/system.string(v=vs.110).aspx" target="_blank" rel="external">.NET String type</a>, although both can store text data. However, redis allows raw binary data for both keys and values - the usage is identical:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">byte[] key = ..., value = ...;</div><div class="line">db.StringSet(key, value);</div><div class="line">...</div><div class="line">byte[] value = db.StringGet(key);</div></pre></td></tr></table></figure>
-<p>The entire range of <a href="http://redis.io/commands" target="_blank" rel="external">redis database commands</a> covering all redis data types is available for use.</p>
-<h2 id="Using-redis-pub-sub"><a href="#Using-redis-pub-sub" class="headerlink" title="Using redis pub/sub"></a>Using redis pub/sub</h2><p>Another common use of redis is as a <a href="http://redis.io/topics/pubsub" target="_blank" rel="external">pub/sub message</a> distribution tool; this is also simple, and in the event of connection failure, the <code>ConnectionMultiplexer</code> will handle all the details of re-subscribing to the requested channels.</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">ISubscriber sub = redis.GetSubscriber();</div></pre></td></tr></table></figure>
-<p>Again, the object returned from <code>GetSubscriber</code> is a cheap pass-thru object that does not need to be stored. The pub/sub API has no concept of databases, but as before we can optionally provide an async-state. Note that all subscriptions are global: they are not scoped to the lifetime of the <code>ISubscriber</code> instance. The pub/sub features in redis use named “channels”; channels do not need to be defined in advance on the server (an interesting use here is things like per-user notification channels, which is what drives parts of the realtime updates on <a href="http://stackoverflow.com" target="_blank" rel="external">Stack Overflow</a>). As is common in .NET, subscriptions take the form of callback delegates which accept the channel-name and the message:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">sub.Subscribe(&quot;messages&quot;, (channel, message) =&gt; &#123;</div><div class="line">    Console.WriteLine((string)message);</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">string value = &quot;abcdefg&quot;;</span><br><span class="line">db.StringSet(&quot;mykey&quot;, value);</span><br><span class="line">...</span><br><span class="line">string value = db.StringGet(&quot;mykey&quot;);</span><br><span class="line">Console.WriteLine(value); // writes: &quot;abcdefg&quot;</span><br></pre></td></tr></table></figure>
+<p>Note that the <code>String...</code> prefix here denotes the <a href="http://redis.io/topics/data-types" target="_blank" rel="noopener">String redis type</a>, and is largely separate to the <a href="http://msdn.microsoft.com/en-us/library/system.string(v=vs.110).aspx" target="_blank" rel="noopener">.NET String type</a>, although both can store text data. However, redis allows raw binary data for both keys and values - the usage is identical:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">byte[] key = ..., value = ...;</span><br><span class="line">db.StringSet(key, value);</span><br><span class="line">...</span><br><span class="line">byte[] value = db.StringGet(key);</span><br></pre></td></tr></table></figure>
+<p>The entire range of <a href="http://redis.io/commands" target="_blank" rel="noopener">redis database commands</a> covering all redis data types is available for use.</p>
+<h2 id="Using-redis-pub-sub"><a href="#Using-redis-pub-sub" class="headerlink" title="Using redis pub/sub"></a>Using redis pub/sub</h2><p>Another common use of redis is as a <a href="http://redis.io/topics/pubsub" target="_blank" rel="noopener">pub/sub message</a> distribution tool; this is also simple, and in the event of connection failure, the <code>ConnectionMultiplexer</code> will handle all the details of re-subscribing to the requested channels.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ISubscriber sub = redis.GetSubscriber();</span><br></pre></td></tr></table></figure>
+<p>Again, the object returned from <code>GetSubscriber</code> is a cheap pass-thru object that does not need to be stored. The pub/sub API has no concept of databases, but as before we can optionally provide an async-state. Note that all subscriptions are global: they are not scoped to the lifetime of the <code>ISubscriber</code> instance. The pub/sub features in redis use named “channels”; channels do not need to be defined in advance on the server (an interesting use here is things like per-user notification channels, which is what drives parts of the realtime updates on <a href="http://stackoverflow.com" target="_blank" rel="noopener">Stack Overflow</a>). As is common in .NET, subscriptions take the form of callback delegates which accept the channel-name and the message:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">sub.Subscribe(&quot;messages&quot;, (channel, message) =&gt; &#123;</span><br><span class="line">    Console.WriteLine((string)message);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
 <p>Separately (and often in a separate process on a separate machine) you can publish to this channel:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sub.Publish(&quot;messages&quot;, &quot;hello&quot;);</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sub.Publish(&quot;messages&quot;, &quot;hello&quot;);</span><br></pre></td></tr></table></figure>
 <p>This will (virtually instantaneously) write <code>&quot;hello&quot;</code> to the console of the subscribed process. As before, both channel-names and messages can be binary.</p>
 <p>Please also see <a href="PubSubOrder">Pub / Sub Message Order</a> for guidance on sequential versus concurrent message processing.</p>
 <h2 id="Accessing-individual-servers"><a href="#Accessing-individual-servers" class="headerlink" title="Accessing individual servers"></a>Accessing individual servers</h2><p>For maintenance purposes, it is sometimes necessary to issue server-specific commands:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">IServer server = redis.GetServer(&quot;localhost&quot;, 6379);</div></pre></td></tr></table></figure>
-<p>The <code>GetServer</code> method will accept an <a href="http://msdn.microsoft.com/en-us/library/system.net.endpoint(v=vs.110" target="_blank" rel="external"><code>EndPoint</code></a>.aspx) or the name/value pair that uniquely identify the server. As before, the object returned from <code>GetServer</code> is a cheap pass-thru object that does not need to be stored, and async-state can be optionally specified. Note that the set of available endpoints is also available:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">EndPoint[] endpoints = redis.GetEndPoints();</div></pre></td></tr></table></figure>
-<p>From the <code>IServer</code> instance, the <a href="http://redis.io/commands#server" target="_blank" rel="external">Server commands</a> are available; for example:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">DateTime lastSave = server.LastSave();</div><div class="line">ClientInfo[] clients = server.ClientList();</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">IServer server = redis.GetServer(&quot;localhost&quot;, 6379);</span><br></pre></td></tr></table></figure>
+<p>The <code>GetServer</code> method will accept an <a href="http://msdn.microsoft.com/en-us/library/system.net.endpoint(v=vs.110" target="_blank" rel="noopener"><code>EndPoint</code></a>.aspx) or the name/value pair that uniquely identify the server. As before, the object returned from <code>GetServer</code> is a cheap pass-thru object that does not need to be stored, and async-state can be optionally specified. Note that the set of available endpoints is also available:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">EndPoint[] endpoints = redis.GetEndPoints();</span><br></pre></td></tr></table></figure>
+<p>From the <code>IServer</code> instance, the <a href="http://redis.io/commands#server" target="_blank" rel="noopener">Server commands</a> are available; for example:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">DateTime lastSave = server.LastSave();</span><br><span class="line">ClientInfo[] clients = server.ClientList();</span><br></pre></td></tr></table></figure>
 <h2 id="Sync-vs-Async-vs-Fire-and-Forget"><a href="#Sync-vs-Async-vs-Fire-and-Forget" class="headerlink" title="Sync vs Async vs Fire-and-Forget"></a>Sync vs Async vs Fire-and-Forget</h2><p>There are 3 primary usage mechanisms with StackExchange.Redis:</p>
 <ul>
 <li>Synchronous - where the operation completes before the methods returns to the caller (note that while this may block the caller, it absolutely <strong>does not</strong> block other threads: the key idea in StackExchange.Redis is that it aggressively shares the connection between concurrent callers)</li>
 <li>Asynchronous - where the operation completes some time in the future, and a <code>Task</code> or <code>Task&lt;T&gt;</code> is returned immediately, which can later:<ul>
 <li>be <code>.Wait()</code>ed (blocking the current thread until the response is available)</li>
-<li>have a continuation callback added (<a href="http://msdn.microsoft.com/en-us/library/system.threading.tasks.task.continuewith(v=vs.110" target="_blank" rel="external"><code>ContinueWith</code></a>.aspx) in the TPL)</li>
+<li>have a continuation callback added (<a href="http://msdn.microsoft.com/en-us/library/system.threading.tasks.task.continuewith(v=vs.110" target="_blank" rel="noopener"><code>ContinueWith</code></a>.aspx) in the TPL)</li>
 <li>be <em>awaited</em> (which is a language-level feature that simplifies the latter, while also continuing immediately if the reply is already known)</li>
 </ul>
 </li>
 <li>Fire-and-Forget - where you really aren’t interested in the reply, and are happy to continue irrespective of the response</li>
 </ul>
-<p>The synchronous usage is already shown in the examples above. This is the simplest usage, and does not involve the <a href="http://msdn.microsoft.com/en-us/library/dd460717%28v=vs.110%29.aspx" target="_blank" rel="external">TPL</a>.</p>
+<p>The synchronous usage is already shown in the examples above. This is the simplest usage, and does not involve the <a href="http://msdn.microsoft.com/en-us/library/dd460717%28v=vs.110%29.aspx" target="_blank" rel="noopener">TPL</a>.</p>
 <p>For asynchronous usage, the key difference is the <code>Async</code> suffix on methods, and (typically) the use of the <code>await</code> language feature. For example:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">string value = &quot;abcdefg&quot;;</div><div class="line">await db.StringSetAsync(&quot;mykey&quot;, value);</div><div class="line">...</div><div class="line">string value = await db.StringGetAsync(&quot;mykey&quot;);</div><div class="line">Console.WriteLine(value); // writes: &quot;abcdefg&quot;</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">string value = &quot;abcdefg&quot;;</span><br><span class="line">await db.StringSetAsync(&quot;mykey&quot;, value);</span><br><span class="line">...</span><br><span class="line">string value = await db.StringGetAsync(&quot;mykey&quot;);</span><br><span class="line">Console.WriteLine(value); // writes: &quot;abcdefg&quot;</span><br></pre></td></tr></table></figure>
 <p>The fire-and-forget usage is accessed by the optional <code>CommandFlags flags</code> parameter on all methods (defaults to none). In this usage, the method returns the default value immediately (so a method that normally returns a <code>String</code> will always return <code>null</code>, and a method that normally returns an <code>Int64</code> will always return <code>0</code>). The operation will continue in the background. A typical use-case of this might be to increment page-view counts:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">db.StringIncrement(pageKey, flags: CommandFlags.FireAndForget);</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">db.StringIncrement(pageKey, flags: CommandFlags.FireAndForget);</span><br></pre></td></tr></table></figure>
 
       
     </div>
@@ -377,7 +377,7 @@
     
       <div>
         <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
-  <div>Donate comment here</div>
+  <div>坚持技术分享，您的支持将鼓励我更好的创作！</div>
   <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
     <span>打赏</span>
   </button>
@@ -385,14 +385,14 @@
 
     
       <div id="wechat" style="display: inline-block">
-        <img id="wechat_qr" src="/images/sharedZan.png" alt="leyili 微信支付"/>
+        <img id="wechat_qr" src="/images/wechatpay.jpg" alt="leyili 微信支付"/>
         <p>微信支付</p>
       </div>
     
 
     
       <div id="alipay" style="display: inline-block">
-        <img id="alipay_qr" src="/images/sharedZan.png" alt="leyili 支付宝"/>
+        <img id="alipay_qr" src="/images/alipay.jpg" alt="leyili 支付宝"/>
         <p>支付宝</p>
       </div>
     
@@ -411,7 +411,7 @@
       
         <div class="post-tags">
           
-            <a href="/tags/规则引擎/" rel="tag"># 规则引擎</a>
+            <a href="/tags/Redis/" rel="tag"># Redis</a>
           
         </div>
       
@@ -528,7 +528,7 @@
               
               <div class="site-state-item site-state-tags">
                 
-                  <span class="site-state-item-count">1</span>
+                  <span class="site-state-item-count">2</span>
                   <span class="site-state-item-name">标签</span>
                 
               </div>

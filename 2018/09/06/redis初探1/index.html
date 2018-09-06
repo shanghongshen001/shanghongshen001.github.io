@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="规则引擎," />
+  <meta name="keywords" content="Redis," />
 
 
 
@@ -80,7 +80,7 @@
 
 
 <meta name="description" content="Redis   key value     github redis   开发者 Salvatore Sanfilippo   许可 BSD   存储位置 内存   可持久化 可持久化到硬盘   非关系型 是   存储类型 字符串，列表，散列表，有序集合   性能 主从备份，可以从任意从服务器发起访问    优点 读写性能优异 支持数据持久化，支持AOF和RDB两种持久化方式 支持主从复制，主机">
-<meta name="keywords" content="规则引擎">
+<meta name="keywords" content="Redis">
 <meta property="og:type" content="article">
 <meta property="og:title" content="windows下Redis初探1">
 <meta property="og:url" content="http://yoursite.com/2018/09/06/redis初探1/index.html">
@@ -91,7 +91,7 @@
 <meta property="og:image" content="https://raw.githubusercontent.com/shanghongshen001/redisGetStarted/master/imgs/006aR3cagy1fh8umb8xmmj30rx0fs76o.jpg">
 <meta property="og:image" content="https://raw.githubusercontent.com/shanghongshen001/redisGetStarted/master/imgs/006aR3cagy1fh8vcm7bcqj30vb0futb6.jpg">
 <meta property="og:image" content="https://raw.githubusercontent.com/shanghongshen001/redisGetStarted/master/imgs/006aR3cagy1fh8vfftedtj30sa0hjjt6.jpg">
-<meta property="og:updated_time" content="2018-09-06T09:14:24.053Z">
+<meta property="og:updated_time" content="2018-09-06T09:50:42.005Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="windows下Redis初探1">
 <meta name="twitter:description" content="Redis   key value     github redis   开发者 Salvatore Sanfilippo   许可 BSD   存储位置 内存   可持久化 可持久化到硬盘   非关系型 是   存储类型 字符串，列表，散列表，有序集合   性能 主从备份，可以从任意从服务器发起访问    优点 读写性能优异 支持数据持久化，支持AOF和RDB两种持久化方式 支持主从复制，主机">
@@ -306,7 +306,7 @@
 
       
         <p><img src="https://redis.io/images/redis-white.png" alt="image"></p>
-<h1 id="Redis"><a href="#Redis" class="headerlink" title="Redis"></a><a href="https://redis.io/" target="_blank" rel="external">Redis</a></h1><table>
+<h1 id="Redis"><a href="#Redis" class="headerlink" title="Redis"></a><a href="https://redis.io/" target="_blank" rel="noopener">Redis</a></h1><table>
 <thead>
 <tr>
 <th>key</th>
@@ -316,7 +316,7 @@
 <tbody>
 <tr>
 <td>github</td>
-<td><a href="https://github.com/MSOpenTech/redis" target="_blank" rel="external">redis</a></td>
+<td><a href="https://github.com/MSOpenTech/redis" target="_blank" rel="noopener">redis</a></td>
 </tr>
 <tr>
 <td>开发者</td>
@@ -372,21 +372,21 @@
 <h3 id="10．队列。"><a href="#10．队列。" class="headerlink" title="10．队列。"></a>10．队列。</h3><p>在当前的编程中队列随处可见。除了push和pop类型的命令之外，Redis还有阻塞队列的命令，能够让一个程序在执行时被另一个程序添加到队列。你也可以做些更有趣的事情，比如一个旋转更新的RSS feed队列。</p>
 <h3 id="11．缓存。"><a href="#11．缓存。" class="headerlink" title="11．缓存。"></a>11．缓存。</h3><p>Redis缓存使用的方式与memcache相同。</p>
 <p>网络应用不能无休止地进行模型的战争，看看这些Redis的原语命令，尽管简单但功能强大，把它们加以组合，所能完成的就更无法想象。当然，你可以专门编写代码来完成所有这些操作，但Redis实现起来显然更为轻松。</p>
-<h1 id="MSOpenTech"><a href="#MSOpenTech" class="headerlink" title="MSOpenTech"></a><a href="https://github.com/MSOpenTech/redis" target="_blank" rel="external">MSOpenTech</a></h1><hr>
+<h1 id="MSOpenTech"><a href="#MSOpenTech" class="headerlink" title="MSOpenTech"></a><a href="https://github.com/MSOpenTech/redis" target="_blank" rel="noopener">MSOpenTech</a></h1><hr>
 <p>Redis 官方没有提供windows下面安装的方法,windows下的Redis是微软官方的MSOpenTech团队fork官方的版本。<br>然后做了一些特殊的更改</p>
-<p><strong>更改内容</strong><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">## Windows-specific changes</div><div class="line">- There is a replacement for the UNIX fork() API that simulates the copy-on-write behavior using a memory mapped file on 2.8. Version 3.0 is using a similar behavior but dropped the memory mapped file in favor of the system paging file.</div><div class="line">- In 3.0 we switch the default memory allocator from dlmalloc to jemalloc that is supposed to do a better job at managing the heap fragmentation.</div><div class="line">- Because Redis makes some assumptions about the values of file descriptors, we have built a virtual file descriptor mapping layer.</div></pre></td></tr></table></figure></p>
+<p><strong>更改内容</strong><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">## Windows-specific changes</span><br><span class="line">- There is a replacement for the UNIX fork() API that simulates the copy-on-write behavior using a memory mapped file on 2.8. Version 3.0 is using a similar behavior but dropped the memory mapped file in favor of the system paging file.</span><br><span class="line">- In 3.0 we switch the default memory allocator from dlmalloc to jemalloc that is supposed to do a better job at managing the heap fragmentation.</span><br><span class="line">- Because Redis makes some assumptions about the values of file descriptors, we have built a virtual file descriptor mapping layer.</span><br></pre></td></tr></table></figure></p>
 <hr>
 <p><img src="https://raw.githubusercontent.com/shanghongshen001/redisGetStarted/master/imgs/006aR3cagy1fh8umb8xmmj30rx0fs76o.jpg" alt="image"></p>
-<p>更多资料请参考<a href="https://github.com/MSOpenTech/redis/wiki/Memory-Configuration" target="_blank" rel="external">WIKI</a></p>
+<p>更多资料请参考<a href="https://github.com/MSOpenTech/redis/wiki/Memory-Configuration" target="_blank" rel="noopener">WIKI</a></p>
 <h1 id="windows下安装"><a href="#windows下安装" class="headerlink" title="windows下安装"></a>windows下安装</h1><h2 id="1-下载"><a href="#1-下载" class="headerlink" title="1.下载"></a>1.下载</h2><p><img src="https://raw.githubusercontent.com/shanghongshen001/redisGetStarted/master/imgs/006aR3cagy1fh8vcm7bcqj30vb0futb6.jpg" alt="image"></p>
 <p><strong>我下载的msi安装版</strong></p>
 <p><img src="https://raw.githubusercontent.com/shanghongshen001/redisGetStarted/master/imgs/006aR3cagy1fh8vfftedtj30sa0hjjt6.jpg" alt="image"></p>
 <h2 id="2-安装"><a href="#2-安装" class="headerlink" title="2.安装"></a>2.安装</h2><p><strong>安装中需要注意的就是勾选把安装目录加入环境变量</strong></p>
 <p>参考:</p>
 <hr>
-<p><a href="http://www.cnblogs.com/jing99/p/6112055.html" target="_blank" rel="external">redis对比其余数据库</a></p>
+<p><a href="http://www.cnblogs.com/jing99/p/6112055.html" target="_blank" rel="noopener">redis对比其余数据库</a></p>
 <hr>
-<p><a href="http://blog.csdn.net/oanqoanq/article/details/51281548" target="_blank" rel="external">redis优缺点总结</a></p>
+<p><a href="http://blog.csdn.net/oanqoanq/article/details/51281548" target="_blank" rel="noopener">redis优缺点总结</a></p>
 
       
     </div>
@@ -399,7 +399,7 @@
     
       <div>
         <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
-  <div>Donate comment here</div>
+  <div>坚持技术分享，您的支持将鼓励我更好的创作！</div>
   <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
     <span>打赏</span>
   </button>
@@ -407,14 +407,14 @@
 
     
       <div id="wechat" style="display: inline-block">
-        <img id="wechat_qr" src="/images/sharedZan.png" alt="leyili 微信支付"/>
+        <img id="wechat_qr" src="/images/wechatpay.jpg" alt="leyili 微信支付"/>
         <p>微信支付</p>
       </div>
     
 
     
       <div id="alipay" style="display: inline-block">
-        <img id="alipay_qr" src="/images/sharedZan.png" alt="leyili 支付宝"/>
+        <img id="alipay_qr" src="/images/alipay.jpg" alt="leyili 支付宝"/>
         <p>支付宝</p>
       </div>
     
@@ -433,7 +433,7 @@
       
         <div class="post-tags">
           
-            <a href="/tags/规则引擎/" rel="tag"># 规则引擎</a>
+            <a href="/tags/Redis/" rel="tag"># Redis</a>
           
         </div>
       
@@ -550,7 +550,7 @@
               
               <div class="site-state-item site-state-tags">
                 
-                  <span class="site-state-item-count">1</span>
+                  <span class="site-state-item-count">2</span>
                   <span class="site-state-item-name">标签</span>
                 
               </div>
