@@ -341,8 +341,8 @@
 <p><img src="https://ws1.sinaimg.cn/large/006UrJumgy1fte1fw3e2qj30bz0dxdjd.jpg" alt="此处输入图片的描述"></p>
 <ul>
 <li>[步骤一]： 应用程序启动规则引擎，激活指定的规则/断言集区。激活的规则/断言集被加载入内存，并通过规则/断言编译器，最终构建出规则匹配网络；</li>
-<li>[步骤二]： 工作内存区从应用程序接收输入数据或对象，将其插入规则匹配网络，经过数据-规则匹配过程，产生完全匹配的<rule, data="">集合；</rule,></li>
-<li>[步骤三]：选择器根据元规则集合提供的优先级描述从<rule,data>集合中选择出<rule,data>集合并包装成<strong>Activation实例集</strong>作为<strong>候选执行单位</strong>；</rule,data></rule,data></li>
+<li>[步骤二]： 工作内存区从应用程序接收输入数据或对象，将其插入规则匹配网络，经过数据-规则匹配过程，产生完全匹配的&lt;rule, data&gt;集合；</li>
+<li>[步骤三]：选择器根据元规则集合提供的优先级描述从&lt;rule,data&gt;集合中选择出&lt;rule,data&gt;集合并包装成<strong>Activation实例集</strong>作为<strong>候选执行单位</strong>；</li>
 <li>[步骤四]：议程用来管理Activation实例集合的活动，支持添加、删除和更新等操作。它将优先执行的Activation实例集合交给调度器；</li>
 <li>[步骤五]：调度器会预先从外部获取控制过程子例程集合。当接收到由议程传来的Activation实例集合时，通过一定的调度算法调度一个过程，并根据过程控制程序来选出将要执行的规则动作，交给解释器执行。此外，调度器还负责未能完成的Activation实例执行过程的调度处理。</li>
 <li>[步骤六]：解释器拥有一个执行栈，用于存放要执行的动作。当解释器执行完一个Activation时，就会从议程中删除已执行的Activation；如果有必要，会产生两种可能的附加结果和操作：<ol>
@@ -364,14 +364,14 @@
 <li>方法是通过数据在网络中的传播来过滤数据。在顶端节点将会有很多匹配的数据。当我们顺着网络向下走，匹配的数据将会越来越少。</li>
 </ul>
 <h2 id="基本构件"><a href="#基本构件" class="headerlink" title="基本构件"></a>基本构件</h2><ul>
-<li>规则：亦称<a href="https://baike.baidu.com/item/%E4%BA%A7%E7%94%9F%E5%BC%8F" target="_blank" rel="external"> [产生式]</a>，指一条由IF-THEN表述的语句，<strong>包括规则条件和规则动作</strong>；（产生式是由条件和动作组成的指令，即所谓的条件—活动规则，（condition—action 简称C-A规则）—— 百度百科）</li>
+<li>规则：亦称<a href="https://baike.baidu.com/item/%E4%BA%A7%E7%94%9F%E5%BC%8F" target="_blank" rel="noopener"> [产生式]</a>，指一条由IF-THEN表述的语句，<strong>包括规则条件和规则动作</strong>；（产生式是由条件和动作组成的指令，即所谓的条件—活动规则，（condition—action 简称C-A规则）—— 百度百科）</li>
 <li>[规则条件]：通常称为LHS，是规则的IF部分的表达，其中含有待匹配的<strong>“模式”元素</strong>；</li>
 <li>[规则动作]：通常称为RHS，是规则的THEN部分的表达，含有当规则被激活和调度时要执行的操作；</li>
 <li>[对象（fact事实）]： 用来匹配规则的事实或数据，在面向对象的语境中统称对象；</li>
 <li>[工作内存]：全局数据区，包含运行时将会插入、删除或更新的对象；当工作内存区插入、删除或更新对象时，都将引发事实在规则集合中的匹配过程。</li>
 <li>[冲突集]：冲突集是一个集合，其中的每一个元素都是一条规则及与之完全匹配的对象集合。</li>
 </ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">when    //LHS</div><div class="line">    emp: Employ(awardPunish==&quot;award&quot;)</div><div class="line">then    //RHS</div><div class="line">  System.out.println(&quot;exec rule Award ... &quot;); </div><div class="line">  emp.setPercent(1.10);</div><div class="line">end</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">when    //LHS</span><br><span class="line">    emp: Employ(awardPunish==&quot;award&quot;)</span><br><span class="line">then    //RHS</span><br><span class="line">  System.out.println(&quot;exec rule Award ... &quot;); </span><br><span class="line">  emp.setPercent(1.10);</span><br><span class="line">end</span><br></pre></td></tr></table></figure>
 <h2 id="七种基本节点"><a href="#七种基本节点" class="headerlink" title="七种基本节点"></a>七种基本节点</h2><ul>
 <li>【RETE Node】  RETE网络的根节点， 默认入口点，任何插入的token都要经过此节点进入RETE匹配网络</li>
 <li>【EntryPointNode 】 RETE根节点的后继节点，它将进入的token创建多个副本并分发到其所有的后继节点</li>
@@ -384,7 +384,7 @@
 <h2 id="三种匹配网络"><a href="#三种匹配网络" class="headerlink" title="三种匹配网络"></a>三种匹配网络</h2><p><img src="https://ws1.sinaimg.cn/large/006UrJumgy1fte40ing68j308y05cjrw.jpg" alt="此处输入图片的描述"></p>
 <p><img src="https://ws1.sinaimg.cn/large/006UrJumgy1fte40ptn6sj309706ywfh.jpg" alt="此处输入图片的描述"></p>
 <p><img src="https://ws1.sinaimg.cn/large/006UrJumgy1ftg5cgtfehj30g50cqn0a.jpg" alt="此处输入图片的描述"></p>
-<h2 id="匹配例子"><a href="#匹配例子" class="headerlink" title="匹配例子"></a>匹配例子</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line">（1）规则内容</div><div class="line"></div><div class="line">    IF：</div><div class="line">    </div><div class="line">        年级是三年级以上，</div><div class="line">        </div><div class="line">        性别是男的，</div><div class="line">        </div><div class="line">        年龄小于10岁，</div><div class="line">        </div><div class="line">        身体健壮，</div><div class="line">        </div><div class="line">        身高170cm以上，</div><div class="line"></div><div class="line"> </div><div class="line">    THEN：</div><div class="line">    </div><div class="line">        这个男孩是一个篮球苗子，需要培养</div></pre></td></tr></table></figure>
+<h2 id="匹配例子"><a href="#匹配例子" class="headerlink" title="匹配例子"></a>匹配例子</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">（1）规则内容</span><br><span class="line"></span><br><span class="line">    IF：</span><br><span class="line">    </span><br><span class="line">        年级是三年级以上，</span><br><span class="line">        </span><br><span class="line">        性别是男的，</span><br><span class="line">        </span><br><span class="line">        年龄小于10岁，</span><br><span class="line">        </span><br><span class="line">        身体健壮，</span><br><span class="line">        </span><br><span class="line">        身高170cm以上，</span><br><span class="line"></span><br><span class="line"> </span><br><span class="line">    THEN：</span><br><span class="line">    </span><br><span class="line">        这个男孩是一个篮球苗子，需要培养</span><br></pre></td></tr></table></figure>
 <p><img src="https://ws1.sinaimg.cn/large/006UrJumgy1ftg6hmnaf4j30u20puwha.jpg" alt="image"></p>
 <h2 id="四种匹配子例程-四种结构"><a href="#四种匹配子例程-四种结构" class="headerlink" title="四种匹配子例程/四种结构"></a>四种匹配子例程/四种结构</h2><ul>
 <li>【Alpha匹配网络】 负责单对象单属性的模式元素匹配，由大量AlphaNode类型的节点集合组成；</li>
@@ -482,14 +482,18 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
+              <a href="/2018/09/06/redis初探2/" rel="next" title="windows下Redis初探2">
+                <i class="fa fa-chevron-left"></i> windows下Redis初探2
+              </a>
+            
           </div>
 
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2018/09/06/redis初探1/" rel="prev" title="windows下Redis初探1">
-                windows下Redis初探1 <i class="fa fa-chevron-right"></i>
+              <a href="/2018/09/06/redis初探3/" rel="prev" title="windows下Redis初探3">
+                windows下Redis初探3 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -569,7 +573,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">5</span>
+                  <span class="site-state-item-count">7</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -582,7 +586,7 @@
               
               <div class="site-state-item site-state-tags">
                 
-                  <span class="site-state-item-count">2</span>
+                  <span class="site-state-item-count">3</span>
                   <span class="site-state-item-name">标签</span>
                 
               </div>

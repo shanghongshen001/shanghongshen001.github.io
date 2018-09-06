@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="Redis," />
+  <meta name="keywords" content=".net 框架," />
 
 
 
@@ -79,26 +79,22 @@
 
 
 
-<meta name="description" content="Redisc# redis客户端既然redis是c/s架构，我们可以使用redis-cli客户端去连接服务端，那么我们也可以使用其他客户端区连接服务端。 c#中比较知名的两个redis客户端库有：ServiceStack.Redis 和 StackExchange.Redis。遗憾的是ServiceStack.Redis在4.0后选择闭源商业化发展，离开了开源的怀抱。  目前C# 用得最多的应该">
-<meta name="keywords" content="Redis">
+<meta name="description" content="# 总体关系 .NET Core/.NET Standard/Xamarin/.NET Framework/Mono .NET Standard是一项实现BCL的API规范 .NET Core是免费、跨平台的，是 .NET Standard的开源实现 Xamarin 是用于构建iOS、Android、macOS和桌面应用程序的架 .NET Standard实现 .NET Framework用于w">
+<meta name="keywords" content=".net 框架">
 <meta property="og:type" content="article">
-<meta property="og:title" content="windows下Redis初探3">
-<meta property="og:url" content="http://yoursite.com/2018/09/06/redis初探3/index.html">
+<meta property="og:title" content=".NET 体系结构">
+<meta property="og:url" content="http://yoursite.com/2018/09/06/dotnet 体系结构/index.html">
 <meta property="og:site_name" content="李浩的技术博客">
-<meta property="og:description" content="Redisc# redis客户端既然redis是c/s架构，我们可以使用redis-cli客户端去连接服务端，那么我们也可以使用其他客户端区连接服务端。 c#中比较知名的两个redis客户端库有：ServiceStack.Redis 和 StackExchange.Redis。遗憾的是ServiceStack.Redis在4.0后选择闭源商业化发展，离开了开源的怀抱。  目前C# 用得最多的应该">
+<meta property="og:description" content="# 总体关系 .NET Core/.NET Standard/Xamarin/.NET Framework/Mono .NET Standard是一项实现BCL的API规范 .NET Core是免费、跨平台的，是 .NET Standard的开源实现 Xamarin 是用于构建iOS、Android、macOS和桌面应用程序的架 .NET Standard实现 .NET Framework用于w">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="https://redis.io/images/redis-white.png">
-<meta property="og:image" content="https://raw.githubusercontent.com/shanghongshen001/redisGetStarted/master/imgs/006aR3cagy1fh901trbcwj30p00f740v.jpg">
-<meta property="og:image" content="https://raw.githubusercontent.com/shanghongshen001/redisGetStarted/master/imgs/006aR3cagy1fh906oza7tj311f0hhdh3.jpg">
-<meta property="og:image" content="https://raw.githubusercontent.com/shanghongshen001/redisGetStarted/master/imgs/006aR3cagy1fh907lzsxaj30p00f775s.jpg">
-<meta property="og:image" content="https://raw.githubusercontent.com/shanghongshen001/redisGetStarted/master/imgs/006aR3cagy1fha4zqdu91j310t0g43zo.jpg">
-<meta property="og:image" content="https://raw.githubusercontent.com/shanghongshen001/redisGetStarted/master/imgs/006aR3cagy1fha6c1de6bj311y0kqmzp.jpg">
-<meta property="og:image" content="https://raw.githubusercontent.com/shanghongshen001/redisGetStarted/master/imgs/006aR3cagy1fha6f0c9fjj311y0jj40j.jpg">
-<meta property="og:updated_time" content="2018-09-06T09:50:53.910Z">
+<meta property="og:image" content="https://ws1.sinaimg.cn/large/006UrJumgy1foygy2mxxjj30ne0bo754.jpg">
+<meta property="og:image" content="https://ws1.sinaimg.cn/large/006UrJumgy1foygrxasw0j30hb0cs0vd.jpg">
+<meta property="og:image" content="https://ws1.sinaimg.cn/large/006UrJumgy1fp32cqo78lj30o90k8wfg.jpg">
+<meta property="og:updated_time" content="2018-09-06T10:16:42.181Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="windows下Redis初探3">
-<meta name="twitter:description" content="Redisc# redis客户端既然redis是c/s架构，我们可以使用redis-cli客户端去连接服务端，那么我们也可以使用其他客户端区连接服务端。 c#中比较知名的两个redis客户端库有：ServiceStack.Redis 和 StackExchange.Redis。遗憾的是ServiceStack.Redis在4.0后选择闭源商业化发展，离开了开源的怀抱。  目前C# 用得最多的应该">
-<meta name="twitter:image" content="https://redis.io/images/redis-white.png">
+<meta name="twitter:title" content=".NET 体系结构">
+<meta name="twitter:description" content="# 总体关系 .NET Core/.NET Standard/Xamarin/.NET Framework/Mono .NET Standard是一项实现BCL的API规范 .NET Core是免费、跨平台的，是 .NET Standard的开源实现 Xamarin 是用于构建iOS、Android、macOS和桌面应用程序的架 .NET Standard实现 .NET Framework用于w">
+<meta name="twitter:image" content="https://ws1.sinaimg.cn/large/006UrJumgy1foygy2mxxjj30ne0bo754.jpg">
 
 
 
@@ -128,13 +124,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2018/09/06/redis初探3/"/>
+  <link rel="canonical" href="http://yoursite.com/2018/09/06/dotnet 体系结构/"/>
 
 
 
 
 
-  <title>windows下Redis初探3 | 李浩的技术博客</title>
+  <title>.NET 体系结构 | 李浩的技术博客</title>
   
 
 
@@ -241,7 +237,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/09/06/redis初探3/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/09/06/dotnet 体系结构/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="leyili">
@@ -258,7 +254,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">windows下Redis初探3</h1>
+          <h1 class="post-title" itemprop="name headline">.NET 体系结构</h1>
         
 
         <div class="post-meta">
@@ -308,27 +304,54 @@
       
 
       
-        <p><img src="https://redis.io/images/redis-white.png" alt="image"></p>
-<h1 id="Redis"><a href="#Redis" class="headerlink" title="Redis"></a><a href="https://redis.io/" target="_blank" rel="noopener">Redis</a></h1><h1 id="c-redis客户端"><a href="#c-redis客户端" class="headerlink" title="c# redis客户端"></a>c# redis客户端</h1><p>既然redis是c/s架构，我们可以使用redis-cli客户端去连接服务端，那么我们也可以使用其他客户端区连接服务端。</p>
-<p>c#中比较知名的两个redis客户端库有：ServiceStack.Redis 和 StackExchange.Redis。遗憾的是ServiceStack.Redis在4.0后选择闭源商业化发展，离开了开源的怀抱。</p>
-<hr>
-<p><strong>目前C# 用得最多的应该是StackExchange.Redis</strong></p>
-<p>打开nuget 按照下载量排序，可以看到StackExchange.Redis 下载量雄踞第一</p>
-<p><img src="https://raw.githubusercontent.com/shanghongshen001/redisGetStarted/master/imgs/006aR3cagy1fh901trbcwj30p00f740v.jpg" alt="image"></p>
-<h1 id="使用StackExchange-Redis连接redis服务端"><a href="#使用StackExchange-Redis连接redis服务端" class="headerlink" title="使用StackExchange.Redis连接redis服务端"></a>使用StackExchange.Redis连接redis服务端</h1><p><a href="https://github.com/StackExchange/StackExchange.Redis/" target="_blank" rel="noopener">github地址</a></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">假设你已经安装好了redis 并且配置好了环境。</span><br><span class="line">如果你还没有安装redis请先安装redis。</span><br></pre></td></tr></table></figure>
-<h2 id="1-新建一个控制台应用"><a href="#1-新建一个控制台应用" class="headerlink" title="1.新建一个控制台应用"></a>1.新建一个控制台应用</h2><p><img src="https://raw.githubusercontent.com/shanghongshen001/redisGetStarted/master/imgs/006aR3cagy1fh906oza7tj311f0hhdh3.jpg" alt="image"></p>
-<h2 id="2-nuget安装StackExchange-Redis"><a href="#2-nuget安装StackExchange-Redis" class="headerlink" title="2.nuget安装StackExchange.Redis"></a>2.nuget安装StackExchange.Redis</h2><p><img src="https://raw.githubusercontent.com/shanghongshen001/redisGetStarted/master/imgs/006aR3cagy1fh907lzsxaj30p00f775s.jpg" alt="image"></p>
-<h2 id="基本使用"><a href="#基本使用" class="headerlink" title="基本使用"></a>基本使用</h2><h3 id="3-1获得一个ConnectionMultiplexer"><a href="#3-1获得一个ConnectionMultiplexer" class="headerlink" title="3.1获得一个ConnectionMultiplexer"></a>3.1获得一个ConnectionMultiplexer</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ConnectionMultiplexer redis = ConnectionMultiplexer.Connect(&quot;127.0.0.1:6379&quot;);</span><br></pre></td></tr></table></figure>
-<p><img src="https://raw.githubusercontent.com/shanghongshen001/redisGetStarted/master/imgs/006aR3cagy1fha4zqdu91j310t0g43zo.jpg" alt="image"></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">原文:</span><br><span class="line">Once you have a ConnectionMultiplexer, there are 3 main things you might want to do:</span><br><span class="line"></span><br><span class="line">access a redis database (note that in the case of a cluster, a single logical database may be spread over multiple nodes)</span><br><span class="line">make use of the pub/sub features of redis</span><br><span class="line">access an individual server for maintenance / monitoring purposes</span><br><span class="line"></span><br><span class="line">大概意思：</span><br><span class="line">如果你已经获得了一个ConnectionMultiplexer 对象，那么你接下来需要做这3件事情</span><br><span class="line"></span><br><span class="line">1 访问redis数据库</span><br><span class="line">2 使用redis 的  pub/sub（pubish-subscribe的缩写） 发布/订阅 功能</span><br><span class="line">3 访问单个服务器进行维护/监控</span><br></pre></td></tr></table></figure>
-<h3 id="3-1-访问单个redis数据库"><a href="#3-1-访问单个redis数据库" class="headerlink" title="3.1 访问单个redis数据库"></a>3.1 访问单个redis数据库</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">IDatabase db = redis.GetDatabase();</span><br></pre></td></tr></table></figure>
-<p><img src="https://raw.githubusercontent.com/shanghongshen001/redisGetStarted/master/imgs/006aR3cagy1fha6c1de6bj311y0kqmzp.jpg" alt="image"></p>
-<h3 id="3-2-string操作"><a href="#3-2-string操作" class="headerlink" title="3.2 string操作"></a>3.2 string操作</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">string value = &quot;abcdefg&quot;;</span><br><span class="line">db.StringSet(&quot;mykey&quot;, value);</span><br><span class="line">...</span><br><span class="line">string value = db.StringGet(&quot;mykey&quot;);</span><br><span class="line">Console.WriteLine(value); // writes: &quot;abcdefg&quot;</span><br></pre></td></tr></table></figure>
-<p><img src="https://raw.githubusercontent.com/shanghongshen001/redisGetStarted/master/imgs/006aR3cagy1fha6f0c9fjj311y0jj40j.jpg" alt="image"></p>
-<hr>
-<hr>
-<p><strong>Over</strong></p>
+        <p>﻿# 总体关系</p>
+<h2 id="NET-Core-NET-Standard-Xamarin-NET-Framework-Mono"><a href="#NET-Core-NET-Standard-Xamarin-NET-Framework-Mono" class="headerlink" title=".NET Core/.NET Standard/Xamarin/.NET Framework/Mono"></a>.NET Core/.NET Standard/Xamarin/.NET Framework/Mono</h2><ul>
+<li>.NET Standard是一项实现<strong>BCL</strong>的<strong>API规范</strong></li>
+<li>.NET Core是免费、跨平台的，是 .NET Standard的开源<strong>实现</strong></li>
+<li>Xamarin 是用于构建iOS、Android、macOS和桌面应用程序的架 .NET Standard<strong>实现</strong></li>
+<li>.NET Framework用于windows上构建桌面应用程序和运行在互联网信息服务器（IIS）上的ASP.NET应用程序。是 .NET Standard的<strong>实现</strong></li>
+<li>Mono 是主要在需要<strong>小型运行时</strong>使用的 .NET <strong>实现</strong>。用于：Android、Mac、iOS、tvOS、watchOS 、Unity </li>
+<li>Mono是开源的，商业化的Mono就是Xamarin</li>
+</ul>
+<h2 id="总结起来就是："><a href="#总结起来就是：" class="headerlink" title="总结起来就是："></a>总结起来就是：</h2><ul>
+<li>.NET Standard 是抽象API定义</li>
+<li>其他的都是 .NET Standard的实现</li>
+</ul>
+<p><strong>如图：</strong></p>
+<p><img src="https://ws1.sinaimg.cn/large/006UrJumgy1foygy2mxxjj30ne0bo754.jpg" alt="image"></p>
+<ul>
+<li><a href="http://immo.landwerth.net/netstandard-versions/#" target="_blank" rel="noopener">这个地方可以测试版本和api的关系</a></li>
+</ul>
+<h3 id="BCL-FCL"><a href="#BCL-FCL" class="headerlink" title="BCL/FCL"></a>BCL/FCL</h3><ul>
+<li>BCL(Base CLass Library):基础类库</li>
+<li>FCL(framework CLass Library):框架类库</li>
+</ul>
+<p>关系如下图</p>
+<p><img src="https://ws1.sinaimg.cn/large/006UrJumgy1foygrxasw0j30hb0cs0vd.jpg" alt="image"></p>
+<p><strong>小结：</strong></p>
+<ul>
+<li>wpf asp.net是.netFramework FCL的一部分,不属于BCL，不被 .net Standard所实现，也就不能在 .net Core xamarin中运行.</li>
+<li>其他框架类似如asp .net Core 不能在 .net framework中运行</li>
+<li>BCL和FCL的关系有点像java的 java se和java me/java EE. se是基础类库  me和ee是框架类库</li>
+<li>FCL是基于BCL的</li>
+</ul>
+<h1 id="Welcome-to-NET-Core"><a href="#Welcome-to-NET-Core" class="headerlink" title="Welcome to .NET Core"></a><a href="https://dotnet.github.io/" target="_blank" rel="noopener">Welcome to .NET Core</a></h1><ul>
+<li><a href="https://docs.microsoft.com/en-us/dotnet/api/index" target="_blank" rel="noopener">API文档</a></li>
+<li><a href="https://docs.microsoft.com/en-us/dotnet/core/index" target="_blank" rel="noopener">指南(英文)</a></li>
+<li><a href="http://go.microsoft.com/fwlink/?LinkID=798306&amp;clcid=0x409" target="_blank" rel="noopener">Get Start</a></li>
+</ul>
+<h2 id="Get-Start"><a href="#Get-Start" class="headerlink" title="Get Start"></a>Get Start</h2><h3 id="安装-NET-SDK"><a href="#安装-NET-SDK" class="headerlink" title="安装 .NET SDK"></a>安装 .NET SDK</h3><p>要开始构建.NET应用程序，只需下载并安装 .NET SDK（软件开发工具包）。</p>
+<p><a href="https://download.microsoft.com/download/1/1/5/115B762D-2B41-4AF3-9A63-92D9680B9409/dotnet-sdk-2.1.4-win-gs-x64.exe" target="_blank" rel="noopener">下载 .NET SDK</a></p>
+<h3 id="创建你的应用"><a href="#创建你的应用" class="headerlink" title="创建你的应用"></a>创建你的应用</h3><p>打开一个新的命令提示符并运行以下命令。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">dotnet new console -o myApp</span><br><span class="line">cd myApp</span><br></pre></td></tr></table></figure>
+<p>dotnet命令将为你创建一个console应用程序。 <strong>-o</strong> 参数后面是应用的名称，用于存储应用程序的目录。</p>
+<p>应用生成后目录下有Program.cs文件， 默认情况下，它包含“Hello World！”的代码。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">using System;</span><br><span class="line"></span><br><span class="line">namespace myApp</span><br><span class="line">&#123;</span><br><span class="line">    class Program</span><br><span class="line">    &#123;</span><br><span class="line">        static void Main(string[] args)</span><br><span class="line">        &#123;</span><br><span class="line">            Console.WriteLine(&quot;Hello World!&quot;);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>使用下面的命令运行：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">dotnet run</span><br></pre></td></tr></table></figure>
+<p><img src="https://ws1.sinaimg.cn/large/006UrJumgy1fp32cqo78lj30o90k8wfg.jpg" alt="image"></p>
+<p>恭喜，您已经构建并运行了您的第一个.NET应用程序！</p>
+<p>如果你想在浏览器中体验 .net core<br><a href="https://www.microsoft.com/net/learn/in-browser-tutorial/1" target="_blank" rel="noopener">这里</a>是地址</p>
 
       
     </div>
@@ -375,7 +398,7 @@
       
         <div class="post-tags">
           
-            <a href="/tags/Redis/" rel="tag"># Redis</a>
+            <a href="/tags/net-框架/" rel="tag"># .net 框架</a>
           
         </div>
       
@@ -388,8 +411,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2018/09/06/规则引擎总结/" rel="next" title="规则引擎总结">
-                <i class="fa fa-chevron-left"></i> 规则引擎总结
+              <a href="/2018/09/06/dotnet 跨平台和老项目移植探究/" rel="next" title=".NET Core 跨平台和老项目移植探究">
+                <i class="fa fa-chevron-left"></i> .NET Core 跨平台和老项目移植探究
               </a>
             
           </div>
@@ -398,8 +421,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2018/09/06/redis初探1/" rel="prev" title="windows下Redis初探1">
-                windows下Redis初探1 <i class="fa fa-chevron-right"></i>
+              <a href="/2018/09/06/redis初探4/" rel="prev" title="windows下Redis初探4">
+                windows下Redis初探4 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -527,7 +550,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Redis"><span class="nav-number">1.</span> <span class="nav-text">Redis</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#c-redis客户端"><span class="nav-number">2.</span> <span class="nav-text">c# redis客户端</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#使用StackExchange-Redis连接redis服务端"><span class="nav-number">3.</span> <span class="nav-text">使用StackExchange.Redis连接redis服务端</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-新建一个控制台应用"><span class="nav-number">3.1.</span> <span class="nav-text">1.新建一个控制台应用</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-nuget安装StackExchange-Redis"><span class="nav-number">3.2.</span> <span class="nav-text">2.nuget安装StackExchange.Redis</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#基本使用"><span class="nav-number">3.3.</span> <span class="nav-text">基本使用</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#3-1获得一个ConnectionMultiplexer"><span class="nav-number">3.3.1.</span> <span class="nav-text">3.1获得一个ConnectionMultiplexer</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-1-访问单个redis数据库"><span class="nav-number">3.3.2.</span> <span class="nav-text">3.1 访问单个redis数据库</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-2-string操作"><span class="nav-number">3.3.3.</span> <span class="nav-text">3.2 string操作</span></a></li></ol></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#NET-Core-NET-Standard-Xamarin-NET-Framework-Mono"><span class="nav-number">1.</span> <span class="nav-text">.NET Core/.NET Standard/Xamarin/.NET Framework/Mono</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#总结起来就是："><span class="nav-number">2.</span> <span class="nav-text">总结起来就是：</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#BCL-FCL"><span class="nav-number">2.1.</span> <span class="nav-text">BCL/FCL</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Welcome-to-NET-Core"><span class="nav-number"></span> <span class="nav-text">Welcome to .NET Core</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Get-Start"><span class="nav-number">1.</span> <span class="nav-text">Get Start</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#安装-NET-SDK"><span class="nav-number">1.1.</span> <span class="nav-text">安装 .NET SDK</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#创建你的应用"><span class="nav-number">1.2.</span> <span class="nav-text">创建你的应用</span></a></li></ol></li></ol></div>
             
 
           </div>
