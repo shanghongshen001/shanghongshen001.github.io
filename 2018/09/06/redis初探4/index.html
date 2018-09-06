@@ -1,0 +1,729 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.3" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16.png?v=5.1.3">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.3" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="规则引擎," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="基本用法 StackExchange.Redis 的核心对象是 ConnectionMultiplexer ， 在 StackExchange.Redis 命名空间下面; 这个对象隐藏(封装)了多个服务器细节。  你不用每个操作都创建ConnectionMultiplexer,因为ConnectionMultiplexer被设计成可以在多个调用着之间共享和复用.  ConnectionMulti">
+<meta name="keywords" content="规则引擎">
+<meta property="og:type" content="article">
+<meta property="og:title" content="windows下Redis初探4">
+<meta property="og:url" content="http://yoursite.com/2018/09/06/redis初探4/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="基本用法 StackExchange.Redis 的核心对象是 ConnectionMultiplexer ， 在 StackExchange.Redis 命名空间下面; 这个对象隐藏(封装)了多个服务器细节。  你不用每个操作都创建ConnectionMultiplexer,因为ConnectionMultiplexer被设计成可以在多个调用着之间共享和复用.  ConnectionMulti">
+<meta property="og:updated_time" content="2018-09-06T09:15:41.627Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="windows下Redis初探4">
+<meta name="twitter:description" content="基本用法 StackExchange.Redis 的核心对象是 ConnectionMultiplexer ， 在 StackExchange.Redis 命名空间下面; 这个对象隐藏(封装)了多个服务器细节。  你不用每个操作都创建ConnectionMultiplexer,因为ConnectionMultiplexer被设计成可以在多个调用着之间共享和复用.  ConnectionMulti">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '5.1.3',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/09/06/redis初探4/"/>
+
+
+
+
+
+  <title>windows下Redis初探4 | Hexo</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Hexo</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            Startseite
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            Archiv
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/09/06/redis初探4/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">windows下Redis初探4</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Veröffentlicht am</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-09-06T00:00:00+08:00">
+                2018-09-06
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="基本用法"><a href="#基本用法" class="headerlink" title="﻿基本用法"></a>﻿基本用法</h1><ul>
+<li><p>StackExchange.Redis 的核心对象是 <code>ConnectionMultiplexer</code> ， 在 <code>StackExchange.Redis</code> 命名空间下面; 这个对象隐藏(封装)了多个服务器细节。</p>
+</li>
+<li><p>你不用每个操作都创建<code>ConnectionMultiplexer</code>,因为<code>ConnectionMultiplexer</code>被设计成可以在多个调用着之间共享和复用.</p>
+</li>
+<li><p><code>ConnectionMultiplexer</code>是线程安全的</p>
+</li>
+<li><p>使用 <code>ConnectionMultiplexer.Connect</code> or <code>ConnectionMultiplexer.ConnectAsync</code><br>传递配置字符串或<code>ConfigurationOptions</code>对象来创建ConnectionMultiplexer对象</p>
+</li>
+<li><p>配置字符串采用以逗号分隔</p>
+</li>
+</ul>
+<p>下面是创建一个<code>ConnectionMultiplexer</code>并连接到本地redis服务器默认端口(6379)的例子</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">using StackExchange.Redis;</div><div class="line">...</div><div class="line">ConnectionMultiplexer redis = ConnectionMultiplexer.Connect(&quot;localhost&quot;);</div><div class="line">// ^^^ store and re-use this!!!</div></pre></td></tr></table></figure>
+<p>注意<code>ConnectionMultiplexer</code>实现了<code>IDisposable</code>,会在你不再使用这个对象的时候自动销毁。这是故意设计不显示用<code>using</code>销毁,因为你可以很方便的使用并重用它。</p>
+<p>更复杂的情况可能涉及主/从设置; 对于此用法，只需指定组成该逻辑redis层的所有所需节点（它将自动标识主节点）：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">ConnectionMultiplexer redis = ConnectionMultiplexer.Connect(&quot;server1:6379,server2:6379&quot;);</div></pre></td></tr></table></figure>
+<p>如果发现两个节点都是主节点，a tie-breaker key can optionally be specified that can be used to resolve the issue，但幸运的是这样的条件非常罕见。</p>
+<p>一旦你有一个ConnectionMultiplexer，你可能想要做的3件主要事情：</p>
+<ul>
+<li>使用 redis database（请注意，在群集的情况下，单个逻辑数据库可能会分布在多个节点上）</li>
+<li>使用redis 的put/sub功能</li>
+<li>访问单个服务器进行维护/监控</li>
+</ul>
+<h2 id="使用-redis-database"><a href="#使用-redis-database" class="headerlink" title="使用 redis database"></a>使用 redis database</h2><p>使用 redis database的一个简单例子:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">IDatabase db = redis.GetDatabase();</div></pre></td></tr></table></figure>
+<p>The object returned from <code>GetDatabase</code> is a cheap pass-thru object, and does not need to be stored. Note that redis supports multiple databases (although this is not supported on “cluster”); this can be optionally specified in the call to <code>GetDatabase</code>. Additionally, if you plan to make use of the asynchronous API and you require the <a href="http://msdn.microsoft.com/en-us/library/system.threading.tasks.task.asyncstate(v=vs.110).aspx" target="_blank" rel="external"><code>Task.AsyncState</code></a> to have a value, this can also be specified:</p>
+<p><code>GetDatabase</code>的返回对象是</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">int databaseNumber = ...</div><div class="line">object asyncState = ...</div><div class="line">IDatabase db = redis.GetDatabase(databaseNumber, asyncState);</div></pre></td></tr></table></figure>
+<p>Once you have the <code>IDatabase</code>, it is simply a case of using the <a href="http://redis.io/commands" target="_blank" rel="external">redis API</a>. Note that all methods have both synchronous and asynchronous implementations. In line with Microsoft’s naming guidance, the asynchronous methods all end <code>...Async(...)</code>, and are fully <code>await</code>-able etc.</p>
+<p>The simplest operation would be to store and retrieve a value:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">string value = &quot;abcdefg&quot;;</div><div class="line">db.StringSet(&quot;mykey&quot;, value);</div><div class="line">...</div><div class="line">string value = db.StringGet(&quot;mykey&quot;);</div><div class="line">Console.WriteLine(value); // writes: &quot;abcdefg&quot;</div></pre></td></tr></table></figure>
+<p>Note that the <code>String...</code> prefix here denotes the <a href="http://redis.io/topics/data-types" target="_blank" rel="external">String redis type</a>, and is largely separate to the <a href="http://msdn.microsoft.com/en-us/library/system.string(v=vs.110).aspx" target="_blank" rel="external">.NET String type</a>, although both can store text data. However, redis allows raw binary data for both keys and values - the usage is identical:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">byte[] key = ..., value = ...;</div><div class="line">db.StringSet(key, value);</div><div class="line">...</div><div class="line">byte[] value = db.StringGet(key);</div></pre></td></tr></table></figure>
+<p>The entire range of <a href="http://redis.io/commands" target="_blank" rel="external">redis database commands</a> covering all redis data types is available for use.</p>
+<h2 id="Using-redis-pub-sub"><a href="#Using-redis-pub-sub" class="headerlink" title="Using redis pub/sub"></a>Using redis pub/sub</h2><p>Another common use of redis is as a <a href="http://redis.io/topics/pubsub" target="_blank" rel="external">pub/sub message</a> distribution tool; this is also simple, and in the event of connection failure, the <code>ConnectionMultiplexer</code> will handle all the details of re-subscribing to the requested channels.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">ISubscriber sub = redis.GetSubscriber();</div></pre></td></tr></table></figure>
+<p>Again, the object returned from <code>GetSubscriber</code> is a cheap pass-thru object that does not need to be stored. The pub/sub API has no concept of databases, but as before we can optionally provide an async-state. Note that all subscriptions are global: they are not scoped to the lifetime of the <code>ISubscriber</code> instance. The pub/sub features in redis use named “channels”; channels do not need to be defined in advance on the server (an interesting use here is things like per-user notification channels, which is what drives parts of the realtime updates on <a href="http://stackoverflow.com" target="_blank" rel="external">Stack Overflow</a>). As is common in .NET, subscriptions take the form of callback delegates which accept the channel-name and the message:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">sub.Subscribe(&quot;messages&quot;, (channel, message) =&gt; &#123;</div><div class="line">    Console.WriteLine((string)message);</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
+<p>Separately (and often in a separate process on a separate machine) you can publish to this channel:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sub.Publish(&quot;messages&quot;, &quot;hello&quot;);</div></pre></td></tr></table></figure>
+<p>This will (virtually instantaneously) write <code>&quot;hello&quot;</code> to the console of the subscribed process. As before, both channel-names and messages can be binary.</p>
+<p>Please also see <a href="PubSubOrder">Pub / Sub Message Order</a> for guidance on sequential versus concurrent message processing.</p>
+<h2 id="Accessing-individual-servers"><a href="#Accessing-individual-servers" class="headerlink" title="Accessing individual servers"></a>Accessing individual servers</h2><p>For maintenance purposes, it is sometimes necessary to issue server-specific commands:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">IServer server = redis.GetServer(&quot;localhost&quot;, 6379);</div></pre></td></tr></table></figure>
+<p>The <code>GetServer</code> method will accept an <a href="http://msdn.microsoft.com/en-us/library/system.net.endpoint(v=vs.110" target="_blank" rel="external"><code>EndPoint</code></a>.aspx) or the name/value pair that uniquely identify the server. As before, the object returned from <code>GetServer</code> is a cheap pass-thru object that does not need to be stored, and async-state can be optionally specified. Note that the set of available endpoints is also available:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">EndPoint[] endpoints = redis.GetEndPoints();</div></pre></td></tr></table></figure>
+<p>From the <code>IServer</code> instance, the <a href="http://redis.io/commands#server" target="_blank" rel="external">Server commands</a> are available; for example:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">DateTime lastSave = server.LastSave();</div><div class="line">ClientInfo[] clients = server.ClientList();</div></pre></td></tr></table></figure>
+<h2 id="Sync-vs-Async-vs-Fire-and-Forget"><a href="#Sync-vs-Async-vs-Fire-and-Forget" class="headerlink" title="Sync vs Async vs Fire-and-Forget"></a>Sync vs Async vs Fire-and-Forget</h2><p>There are 3 primary usage mechanisms with StackExchange.Redis:</p>
+<ul>
+<li>Synchronous - where the operation completes before the methods returns to the caller (note that while this may block the caller, it absolutely <strong>does not</strong> block other threads: the key idea in StackExchange.Redis is that it aggressively shares the connection between concurrent callers)</li>
+<li>Asynchronous - where the operation completes some time in the future, and a <code>Task</code> or <code>Task&lt;T&gt;</code> is returned immediately, which can later:<ul>
+<li>be <code>.Wait()</code>ed (blocking the current thread until the response is available)</li>
+<li>have a continuation callback added (<a href="http://msdn.microsoft.com/en-us/library/system.threading.tasks.task.continuewith(v=vs.110" target="_blank" rel="external"><code>ContinueWith</code></a>.aspx) in the TPL)</li>
+<li>be <em>awaited</em> (which is a language-level feature that simplifies the latter, while also continuing immediately if the reply is already known)</li>
+</ul>
+</li>
+<li>Fire-and-Forget - where you really aren’t interested in the reply, and are happy to continue irrespective of the response</li>
+</ul>
+<p>The synchronous usage is already shown in the examples above. This is the simplest usage, and does not involve the <a href="http://msdn.microsoft.com/en-us/library/dd460717%28v=vs.110%29.aspx" target="_blank" rel="external">TPL</a>.</p>
+<p>For asynchronous usage, the key difference is the <code>Async</code> suffix on methods, and (typically) the use of the <code>await</code> language feature. For example:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">string value = &quot;abcdefg&quot;;</div><div class="line">await db.StringSetAsync(&quot;mykey&quot;, value);</div><div class="line">...</div><div class="line">string value = await db.StringGetAsync(&quot;mykey&quot;);</div><div class="line">Console.WriteLine(value); // writes: &quot;abcdefg&quot;</div></pre></td></tr></table></figure>
+<p>The fire-and-forget usage is accessed by the optional <code>CommandFlags flags</code> parameter on all methods (defaults to none). In this usage, the method returns the default value immediately (so a method that normally returns a <code>String</code> will always return <code>null</code>, and a method that normally returns an <code>Int64</code> will always return <code>0</code>). The operation will continue in the background. A typical use-case of this might be to increment page-view counts:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">db.StringIncrement(pageKey, flags: CommandFlags.FireAndForget);</div></pre></td></tr></table></figure>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/规则引擎/" rel="tag"># 规则引擎</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/09/06/redis初探1/" rel="next" title="windows下Redis初探1">
+                <i class="fa fa-chevron-left"></i> windows下Redis初探1
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/09/06/redis初探2/" rel="prev" title="windows下Redis初探2">
+                windows下Redis初探2 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  
+    <div class="comments" id="comments">
+      <div id="uyan_frame"></div>
+    </div>
+  
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Inhaltsverzeichnis
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Übersicht
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">John Doe</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">5</span>
+                  <span class="site-state-item-name">Artikel</span>
+                </a>
+              </div>
+            
+
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                
+                  <span class="site-state-item-count">1</span>
+                  <span class="site-state-item-name">Tags</span>
+                
+              </div>
+            
+
+          </nav>
+
+          
+
+          <div class="links-of-author motion-element">
+            
+          </div>
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#基本用法"><span class="nav-number">1.</span> <span class="nav-text">﻿基本用法</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#使用-redis-database"><span class="nav-number">1.1.</span> <span class="nav-text">使用 redis database</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Using-redis-pub-sub"><span class="nav-number">1.2.</span> <span class="nav-text">Using redis pub/sub</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Accessing-individual-servers"><span class="nav-number">1.3.</span> <span class="nav-text">Accessing individual servers</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Sync-vs-Async-vs-Fire-and-Forget"><span class="nav-number">1.4.</span> <span class="nav-text">Sync vs Async vs Fire-and-Forget</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">John Doe</span>
+
+  
+</div>
+
+
+  <div class="powered-by">Erstellt mit  <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Muse</a> v5.1.3</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.3"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.3"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.3"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+    
+
+    
+      <!-- UY BEGIN -->
+      <script type="text/javascript" src="http://v2.uyan.cc/code/uyan.js?uid=2084567"></script>
+      <!-- UY END -->
+    
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

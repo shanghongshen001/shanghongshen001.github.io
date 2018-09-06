@@ -1,0 +1,751 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.3" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16.png?v=5.1.3">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.3" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="规则引擎," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="Redis   key value     github redis   开发者 Salvatore Sanfilippo   许可 BSD   存储位置 内存   可持久化 可持久化到硬盘   非关系型 是   存储类型 字符串，列表，散列表，有序集合   性能 主从备份，可以从任意从服务器发起访问    优点 读写性能优异 支持数据持久化，支持AOF和RDB两种持久化方式 支持主从复制，主机">
+<meta name="keywords" content="规则引擎">
+<meta property="og:type" content="article">
+<meta property="og:title" content="windows下Redis初探1">
+<meta property="og:url" content="http://yoursite.com/2018/09/06/redis初探1/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="Redis   key value     github redis   开发者 Salvatore Sanfilippo   许可 BSD   存储位置 内存   可持久化 可持久化到硬盘   非关系型 是   存储类型 字符串，列表，散列表，有序集合   性能 主从备份，可以从任意从服务器发起访问    优点 读写性能优异 支持数据持久化，支持AOF和RDB两种持久化方式 支持主从复制，主机">
+<meta property="og:image" content="https://redis.io/images/redis-white.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/shanghongshen001/redisGetStarted/master/imgs/006aR3cagy1fh8umb8xmmj30rx0fs76o.jpg">
+<meta property="og:image" content="https://raw.githubusercontent.com/shanghongshen001/redisGetStarted/master/imgs/006aR3cagy1fh8vcm7bcqj30vb0futb6.jpg">
+<meta property="og:image" content="https://raw.githubusercontent.com/shanghongshen001/redisGetStarted/master/imgs/006aR3cagy1fh8vfftedtj30sa0hjjt6.jpg">
+<meta property="og:updated_time" content="2018-09-06T09:14:24.053Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="windows下Redis初探1">
+<meta name="twitter:description" content="Redis   key value     github redis   开发者 Salvatore Sanfilippo   许可 BSD   存储位置 内存   可持久化 可持久化到硬盘   非关系型 是   存储类型 字符串，列表，散列表，有序集合   性能 主从备份，可以从任意从服务器发起访问    优点 读写性能优异 支持数据持久化，支持AOF和RDB两种持久化方式 支持主从复制，主机">
+<meta name="twitter:image" content="https://redis.io/images/redis-white.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '5.1.3',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/09/06/redis初探1/"/>
+
+
+
+
+
+  <title>windows下Redis初探1 | Hexo</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Hexo</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            Startseite
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            Archiv
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/09/06/redis初探1/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">windows下Redis初探1</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Veröffentlicht am</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-09-06T00:00:00+08:00">
+                2018-09-06
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p><img src="https://redis.io/images/redis-white.png" alt="image"></p>
+<h1 id="Redis"><a href="#Redis" class="headerlink" title="Redis"></a><a href="https://redis.io/" target="_blank" rel="external">Redis</a></h1><table>
+<thead>
+<tr>
+<th>key</th>
+<th>value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>github</td>
+<td><a href="https://github.com/MSOpenTech/redis" target="_blank" rel="external">redis</a></td>
+</tr>
+<tr>
+<td>开发者</td>
+<td>Salvatore Sanfilippo</td>
+</tr>
+<tr>
+<td>许可</td>
+<td>BSD</td>
+</tr>
+<tr>
+<td>存储位置</td>
+<td>内存</td>
+</tr>
+<tr>
+<td>可持久化</td>
+<td>可持久化到硬盘</td>
+</tr>
+<tr>
+<td>非关系型</td>
+<td>是</td>
+</tr>
+<tr>
+<td>存储类型</td>
+<td>字符串，列表，散列表，有序集合</td>
+</tr>
+<tr>
+<td>性能</td>
+<td>主从备份，可以从任意从服务器发起访问</td>
+</tr>
+</tbody>
+</table>
+<h2 id="优点"><a href="#优点" class="headerlink" title="优点"></a>优点</h2><ul>
+<li>读写性能优异</li>
+<li>支持数据持久化，支持AOF和RDB两种持久化方式</li>
+<li>支持主从复制，主机会自动将数据同步到从机，可以进行读写分离。(主服务器,主要负责写入数据,多台从服务器,负责数据的读取)</li>
+<li>数据结构丰富：除了支持string类型的value外还支持string、hash、set、sortedset、list等数据结构。</li>
+</ul>
+<h2 id="缺点"><a href="#缺点" class="headerlink" title="缺点"></a>缺点</h2><ul>
+<li>Redis不具备自动容错和恢复功能，主机从机的宕机都会导致前端部分读写请求失败，需要等待机器重启或者手动切换前端的IP才能恢复。</li>
+<li>主机宕机，宕机前有部分数据未能及时同步到从机，切换IP后还会引入数据不一致的问题，降低了系统的可用性。</li>
+<li>redis的主从复制采用全量复制，复制过程中主机会fork出一个子进程对内存做一份快照，并将子进程的内存快照保存为文件发送给从机，这一过程需要确保主机有足够多的空余内存。若快照文件较大，对集群的服务能力会产生较大的影响，而且复制过程是在从机新加入集群或者从机和主机网络断开重连时都会进行，也就是网络波动都会造成主机和从机间的一次全量的数据复制，这对实际的系统运营造成了不小的麻烦。</li>
+<li>Redis较难支持在线扩容，在集群容量达到上限时在线扩容会变得很复杂。为避免这一问题，运维人员在系统上线时必须确保有足够的空间，这对资源造成了很大的浪费。</li>
+</ul>
+<h2 id="Web中应用场景"><a href="#Web中应用场景" class="headerlink" title="Web中应用场景"></a>Web中应用场景</h2><h3 id="1．在主页中显示最新的项目列表。"><a href="#1．在主页中显示最新的项目列表。" class="headerlink" title="1．在主页中显示最新的项目列表。"></a>1．在主页中显示最新的项目列表。</h3><p>Redis使用的是常驻内存的缓存，速度非常快。LPUSH用来插入一个内容ID，作为关键字存储在列表头部。LTRIM用来限制列表中的项目数最多为5000。如果用户需要的检索的数据量超越这个缓存容量，这时才需要把请求发送到数据库。</p>
+<h3 id="2．删除和过滤。"><a href="#2．删除和过滤。" class="headerlink" title="2．删除和过滤。"></a>2．删除和过滤。</h3><p>如果一篇文章被删除，可以使用LREM从缓存中彻底清除掉。 </p>
+<h3 id="3．排行榜及相关问题。"><a href="#3．排行榜及相关问题。" class="headerlink" title="3．排行榜及相关问题。"></a>3．排行榜及相关问题。</h3><p>排行榜（leader board）按照得分进行排序。ZADD命令可以直接实现这个功能，而ZREVRANGE命令可以用来按照得分来获取前100名的用户，ZRANK可以用来获取用户排名，非常直接而且操作容易。</p>
+<h3 id="4．按照用户投票和时间排序。"><a href="#4．按照用户投票和时间排序。" class="headerlink" title="4．按照用户投票和时间排序。"></a>4．按照用户投票和时间排序。</h3><p>这就像Reddit的排行榜，得分会随着时间变化。LPUSH和LTRIM命令结合运用，把文章添加到一个列表中。一项后台任务用来获取列表，并重新计算列表的排序，ZADD命令用来按照新的顺序填充生成列表。列表可以实现非常快速的检索，即使是负载很重的站点。</p>
+<h3 id="5．过期项目处理。"><a href="#5．过期项目处理。" class="headerlink" title="5．过期项目处理。"></a>5．过期项目处理。</h3><p>使用unix时间作为关键字，用来保持列表能够按时间排序。对current_time和time_to_live进行检索，完成查找过期项目的艰巨任务。另一项后台任务使用ZRANGE…WITHSCORES进行查询，删除过期的条目。</p>
+<h3 id="6．计数。"><a href="#6．计数。" class="headerlink" title="6．计数。"></a>6．计数。</h3><p>进行各种数据统计的用途是非常广泛的，比如想知道什么时候封锁一个IP地址。INCRBY命令让这些变得很容易，通过原子递增保持计数；GETSET用来重置计数器；过期属性用来确认一个关键字什么时候应该删除。</p>
+<h3 id="7．特定时间内的特定项目。"><a href="#7．特定时间内的特定项目。" class="headerlink" title="7．特定时间内的特定项目。"></a>7．特定时间内的特定项目。</h3><p>这是特定访问者的问题，可以通过给每次页面浏览使用SADD命令来解决。SADD不会将已经存在的成员添加到一个集合。</p>
+<h3 id="8．实时分析正在发生的情况，用于数据统计与防止垃圾邮件等。"><a href="#8．实时分析正在发生的情况，用于数据统计与防止垃圾邮件等。" class="headerlink" title="8．实时分析正在发生的情况，用于数据统计与防止垃圾邮件等。"></a>8．实时分析正在发生的情况，用于数据统计与防止垃圾邮件等。</h3><p>使用Redis原语命令，更容易实施垃圾邮件过滤系统或其他实时跟踪系统。</p>
+<h3 id="9．Pub-Sub。"><a href="#9．Pub-Sub。" class="headerlink" title="9．Pub/Sub。"></a>9．Pub/Sub。</h3><p>在更新中保持用户对数据的映射是系统中的一个普遍任务。Redis的pub/sub功能使用了SUBSCRIBE、UNSUBSCRIBE和PUBLISH命令，让这个变得更加容易。 </p>
+<h3 id="10．队列。"><a href="#10．队列。" class="headerlink" title="10．队列。"></a>10．队列。</h3><p>在当前的编程中队列随处可见。除了push和pop类型的命令之外，Redis还有阻塞队列的命令，能够让一个程序在执行时被另一个程序添加到队列。你也可以做些更有趣的事情，比如一个旋转更新的RSS feed队列。</p>
+<h3 id="11．缓存。"><a href="#11．缓存。" class="headerlink" title="11．缓存。"></a>11．缓存。</h3><p>Redis缓存使用的方式与memcache相同。</p>
+<p>网络应用不能无休止地进行模型的战争，看看这些Redis的原语命令，尽管简单但功能强大，把它们加以组合，所能完成的就更无法想象。当然，你可以专门编写代码来完成所有这些操作，但Redis实现起来显然更为轻松。</p>
+<h1 id="MSOpenTech"><a href="#MSOpenTech" class="headerlink" title="MSOpenTech"></a><a href="https://github.com/MSOpenTech/redis" target="_blank" rel="external">MSOpenTech</a></h1><hr>
+<p>Redis 官方没有提供windows下面安装的方法,windows下的Redis是微软官方的MSOpenTech团队fork官方的版本。<br>然后做了一些特殊的更改</p>
+<p><strong>更改内容</strong><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">## Windows-specific changes</div><div class="line">- There is a replacement for the UNIX fork() API that simulates the copy-on-write behavior using a memory mapped file on 2.8. Version 3.0 is using a similar behavior but dropped the memory mapped file in favor of the system paging file.</div><div class="line">- In 3.0 we switch the default memory allocator from dlmalloc to jemalloc that is supposed to do a better job at managing the heap fragmentation.</div><div class="line">- Because Redis makes some assumptions about the values of file descriptors, we have built a virtual file descriptor mapping layer.</div></pre></td></tr></table></figure></p>
+<hr>
+<p><img src="https://raw.githubusercontent.com/shanghongshen001/redisGetStarted/master/imgs/006aR3cagy1fh8umb8xmmj30rx0fs76o.jpg" alt="image"></p>
+<p>更多资料请参考<a href="https://github.com/MSOpenTech/redis/wiki/Memory-Configuration" target="_blank" rel="external">WIKI</a></p>
+<h1 id="windows下安装"><a href="#windows下安装" class="headerlink" title="windows下安装"></a>windows下安装</h1><h2 id="1-下载"><a href="#1-下载" class="headerlink" title="1.下载"></a>1.下载</h2><p><img src="https://raw.githubusercontent.com/shanghongshen001/redisGetStarted/master/imgs/006aR3cagy1fh8vcm7bcqj30vb0futb6.jpg" alt="image"></p>
+<p><strong>我下载的msi安装版</strong></p>
+<p><img src="https://raw.githubusercontent.com/shanghongshen001/redisGetStarted/master/imgs/006aR3cagy1fh8vfftedtj30sa0hjjt6.jpg" alt="image"></p>
+<h2 id="2-安装"><a href="#2-安装" class="headerlink" title="2.安装"></a>2.安装</h2><p><strong>安装中需要注意的就是勾选把安装目录加入环境变量</strong></p>
+<p>参考:</p>
+<hr>
+<p><a href="http://www.cnblogs.com/jing99/p/6112055.html" target="_blank" rel="external">redis对比其余数据库</a></p>
+<hr>
+<p><a href="http://blog.csdn.net/oanqoanq/article/details/51281548" target="_blank" rel="external">redis优缺点总结</a></p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/规则引擎/" rel="tag"># 规则引擎</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/09/06/规则引擎总结/" rel="next" title="规则引擎总结">
+                <i class="fa fa-chevron-left"></i> 规则引擎总结
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/09/06/redis初探4/" rel="prev" title="windows下Redis初探4">
+                windows下Redis初探4 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  
+    <div class="comments" id="comments">
+      <div id="uyan_frame"></div>
+    </div>
+  
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Inhaltsverzeichnis
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Übersicht
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">John Doe</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">5</span>
+                  <span class="site-state-item-name">Artikel</span>
+                </a>
+              </div>
+            
+
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                
+                  <span class="site-state-item-count">1</span>
+                  <span class="site-state-item-name">Tags</span>
+                
+              </div>
+            
+
+          </nav>
+
+          
+
+          <div class="links-of-author motion-element">
+            
+          </div>
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Redis"><span class="nav-number">1.</span> <span class="nav-text">Redis</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#优点"><span class="nav-number">1.1.</span> <span class="nav-text">优点</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#缺点"><span class="nav-number">1.2.</span> <span class="nav-text">缺点</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Web中应用场景"><span class="nav-number">1.3.</span> <span class="nav-text">Web中应用场景</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1．在主页中显示最新的项目列表。"><span class="nav-number">1.3.1.</span> <span class="nav-text">1．在主页中显示最新的项目列表。</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2．删除和过滤。"><span class="nav-number">1.3.2.</span> <span class="nav-text">2．删除和过滤。</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3．排行榜及相关问题。"><span class="nav-number">1.3.3.</span> <span class="nav-text">3．排行榜及相关问题。</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4．按照用户投票和时间排序。"><span class="nav-number">1.3.4.</span> <span class="nav-text">4．按照用户投票和时间排序。</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5．过期项目处理。"><span class="nav-number">1.3.5.</span> <span class="nav-text">5．过期项目处理。</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#6．计数。"><span class="nav-number">1.3.6.</span> <span class="nav-text">6．计数。</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#7．特定时间内的特定项目。"><span class="nav-number">1.3.7.</span> <span class="nav-text">7．特定时间内的特定项目。</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#8．实时分析正在发生的情况，用于数据统计与防止垃圾邮件等。"><span class="nav-number">1.3.8.</span> <span class="nav-text">8．实时分析正在发生的情况，用于数据统计与防止垃圾邮件等。</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#9．Pub-Sub。"><span class="nav-number">1.3.9.</span> <span class="nav-text">9．Pub/Sub。</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#10．队列。"><span class="nav-number">1.3.10.</span> <span class="nav-text">10．队列。</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#11．缓存。"><span class="nav-number">1.3.11.</span> <span class="nav-text">11．缓存。</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#MSOpenTech"><span class="nav-number">2.</span> <span class="nav-text">MSOpenTech</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#windows下安装"><span class="nav-number">3.</span> <span class="nav-text">windows下安装</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-下载"><span class="nav-number">3.1.</span> <span class="nav-text">1.下载</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-安装"><span class="nav-number">3.2.</span> <span class="nav-text">2.安装</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">John Doe</span>
+
+  
+</div>
+
+
+  <div class="powered-by">Erstellt mit  <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Muse</a> v5.1.3</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.3"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.3"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.3"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+    
+
+    
+      <!-- UY BEGIN -->
+      <script type="text/javascript" src="http://v2.uyan.cc/code/uyan.js?uid=2084567"></script>
+      <!-- UY END -->
+    
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
